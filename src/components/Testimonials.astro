@@ -1,0 +1,57 @@
+---
+const testimonials = [
+  {
+    quote: "BrickxBrick.ai transformed our business operations. Their AI solutions helped us reduce costs by 40% while improving efficiency.",
+    author: "Sarah Johnson",
+    role: "CTO, TechCorp Solutions"
+  },
+  {
+    quote: "The team's expertise in AI automation is unmatched. They delivered exactly what we needed and more.",
+    author: "Michael Chen",
+    role: "Operations Director, InnovateCo"
+  },
+  {
+    quote: "Working with BrickxBrick.ai was a game-changer for our company. Their AI solutions streamlined our workflows perfectly.",
+    author: "Emily Rodriguez",
+    role: "CEO, Future Systems"
+  }
+];
+---
+
+<section class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">What Our Clients Say</h2>
+      <p class="text-xl text-gray-600">Trusted by industry leaders worldwide</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {testimonials.map(testimonial => (
+        <div class="bg-gray-50 rounded-lg p-8 relative">
+          <div class="absolute top-4 left-4 text-indigo-200 text-6xl">"</div>
+          <div class="relative">
+            <p class="text-gray-600 mb-6 italic">
+              {testimonial.quote}
+            </p>
+            <div>
+              <p class="font-semibold text-gray-900">{testimonial.author}</p>
+              <p class="text-gray-600">{testimonial.role}</p>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div class="mt-16 text-center">
+      <h3 class="text-2xl font-bold text-gray-900 mb-8">Trusted By Industry Leaders</h3>
+      <div class="flex flex-wrap justify-center items-center gap-8 opacity-50">
+        <!-- Replace these with actual client logos -->
+        <div class="w-32 h-12 bg-gray-200 rounded"></div>
+        <div class="w-32 h-12 bg-gray-200 rounded"></div>
+        <div class="w-32 h-12 bg-gray-200 rounded"></div>
+        <div class="w-32 h-12 bg-gray-200 rounded"></div>
+        <div class="w-32 h-12 bg-gray-200 rounded"></div>
+      </div>
+    </div>
+  </div>
+</section>

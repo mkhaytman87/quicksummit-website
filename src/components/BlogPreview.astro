@@ -1,0 +1,93 @@
+---
+const posts = [
+  {
+    title: "The Future of AI Automation in Business",
+    excerpt: "Discover how AI is revolutionizing business operations and what it means for your company's future.",
+    image: "/blog/ai-future.jpg",
+    date: "2025-02-14",
+    author: "Dr. Alex Thompson",
+    slug: "future-of-ai-automation"
+  },
+  {
+    title: "5 Ways AI Can Boost Your Productivity",
+    excerpt: "Learn the key strategies for implementing AI to enhance your team's productivity and efficiency.",
+    image: "/blog/productivity.jpg",
+    date: "2025-02-10",
+    author: "Maria Garcia",
+    slug: "ai-productivity-boost"
+  },
+  {
+    title: "Understanding Machine Learning in Business",
+    excerpt: "A comprehensive guide to understanding how machine learning can transform your business processes.",
+    image: "/blog/machine-learning.jpg",
+    date: "2025-02-07",
+    author: "James Wilson",
+    slug: "machine-learning-guide"
+  }
+];
+---
+
+<section class="py-20 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Insights & Innovations in AI Automation</h2>
+      <p class="text-xl text-gray-600">Stay updated with the latest trends and insights in AI technology</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {posts.map(post => (
+        <article class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+          <div class="aspect-w-16 aspect-h-9 bg-gray-200">
+            <div class="w-full h-48 bg-gray-200"></div>
+          </div>
+          <div class="p-6">
+            <div class="text-sm text-gray-500 mb-2">
+              {new Date(post.date).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+              })} • {post.author}
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-2">
+              <a href={`/blog/${post.slug}`} class="hover:text-indigo-600">
+                {post.title}
+              </a>
+            </h3>
+            <p class="text-gray-600 mb-4">
+              {post.excerpt}
+            </p>
+            <a
+              href={`/blog/${post.slug}`}
+              class="inline-flex items-center text-indigo-600 hover:text-indigo-500"
+            >
+              Read More
+              <svg
+                class="ml-2 w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 5l7 7-7 7"
+                ></path>
+              </svg>
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <div class="text-center mt-12">
+      <a
+        href="/blog"
+        class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
+      >
+        View All Posts
+      </a>
+    </div>
+  </div>
+</section>

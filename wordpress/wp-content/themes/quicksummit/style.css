@@ -1,0 +1,44 @@
+/*
+Theme Name: QuickSummit
+Theme URI: https://quicksummit.net
+Description: Custom theme matching QuickSummit's main site design
+Version: 1.0
+Author: QuickSummit
+*/
+
+/* Import Tailwind styles from main site */
+@import url('/style.css');
+
+/* WordPress-specific overrides */
+.wp-content {
+    @apply max-w-3xl mx-auto px-4 py-8;
+}
+
+.entry-title {
+    @apply text-3xl font-bold mb-4;
+}
+
+.entry-content {
+    @apply prose prose-lg;
+}
+
+.wp-block-image img {
+    @apply rounded-lg;
+}
+
+.navigation {
+    @apply flex justify-between mt-8;
+}
+
+.comment-form {
+    @apply mt-8;
+}
+
+.comment-form input[type="text"],
+.comment-form textarea {
+    @apply w-full border border-gray-300 rounded-md px-4 py-2;
+}
+
+.comment-form input[type="submit"] {
+    @apply bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700;
+}
