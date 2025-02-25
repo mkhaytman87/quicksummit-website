@@ -9,6 +9,8 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    environment: production
+    
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -28,15 +30,29 @@ jobs:
       - name: Copy .htaccess
         run: cp .htaccess dist/
 
-      - name: Install SSH key
+      - name: Debug Secrets
+        run: |
+          if [ -n "${{ secrets.SSH_PRIVATE_KEY }}" ]; then
+            echo "SSH_PRIVATE_KEY is set"
+          else
+            echo "SSH_PRIVATE_KEY is not set"
+          fi
+
+      - name: Install SSH Key
         uses: shimataro/ssh-key-action@v2
         with:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           known_hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
           if_key_exists: replace
+          config: |
+            Host quicksummit.net
+              HostName quicksummit.net
+              User ${{ secrets.SSH_USER }}
+              Port ${{ secrets.SSH_PORT }}
 
       - name: Deploy to Server
         run: |
+          echo "Starting deployment..."
           rsync -avz --delete \
             -e "ssh -p ${{ secrets.SSH_PORT }}" \
             ./dist/ \
