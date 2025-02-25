@@ -31,42 +31,36 @@ jobs:
 
       - name: Debug SSH Setup
         run: |
-          # Debug: Print secret availability (not values)
+          echo "Starting deployment process..."
           echo "Checking secrets..."
           echo "REMOTE_HOST is set: ${{ secrets.REMOTE_HOST != '' }}"
           echo "REMOTE_USER is set: ${{ secrets.REMOTE_USER != '' }}"
           echo "REMOTE_PORT is set: ${{ secrets.REMOTE_PORT != '' }}"
           echo "SSH_PRIVATE_KEY is set: ${{ secrets.SSH_PRIVATE_KEY != '' }}"
           
-          # Create .ssh directory and set permissions
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
           
-          # Write SSH key and set permissions
+          echo "Writing SSH key..."
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
           
-          # Debug key file
-          echo "SSH key file contents (first line only):"
-          head -n 1 ~/.ssh/deploy_key
-          
-          # Add host key with explicit port
-          echo "Adding host key for ${{ secrets.REMOTE_HOST }}"
+          echo "Adding known hosts..."
           ssh-keyscan -p "${{ secrets.REMOTE_PORT }}" "${{ secrets.REMOTE_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null
           chmod 644 ~/.ssh/known_hosts
 
       - name: Test SSH Connection
         run: |
-          echo "Testing SSH connection..."
+          echo "Testing SSH connection to ${{ secrets.REMOTE_HOST }}..."
           ssh -v -i ~/.ssh/deploy_key \
               -p "${{ secrets.REMOTE_PORT }}" \
               "${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}" \
-              "pwd && whoami"
+              "echo Connected successfully as \$(whoami) in \$(pwd)"
 
       - name: Deploy with rsync
         if: success()
         run: |
-          echo "Starting rsync deployment..."
+          echo "Starting rsync deployment to ${{ secrets.REMOTE_HOST }}..."
           rsync -avz --delete \
             -e "ssh -i ~/.ssh/deploy_key -p ${{ secrets.REMOTE_PORT }}" \
             dist/ \
