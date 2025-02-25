@@ -36,16 +36,16 @@ jobs:
       - name: Copy .htaccess
         run: cp .htaccess dist/
 
-      - name: Deploy via FTP
-        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+      - name: 📂 Deploy via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
-          username: deployquicksummit
           server: ${{ secrets.REMOTE_HOST }}
-          port: 21
-          local_path: './dist/*'
-          remote_path: '/'
-          sftp_only: false
+          username: deployquicksummit
           password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./dist/
+          server-dir: /
+          protocol: ftps
+          timeout: 60000
 
       - name: Verify deployment
         uses: appleboy/ssh-action@master
