@@ -29,13 +29,13 @@ jobs:
       - name: Copy .htaccess
         run: cp .htaccess dist/
 
-      - name: 📂 Deploy via SFTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      - name: Deploy via SFTP
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
-          server: ${{ secrets.REMOTE_HOST }}
           username: ${{ secrets.REMOTE_USER }}
-          password: ${{ secrets.REMOTE_PASSWORD }}
+          server: ${{ secrets.REMOTE_HOST }}
           port: ${{ secrets.REMOTE_PORT }}
-          protocol: sftp
-          local-dir: ./dist/
-          server-dir: /home/${{ secrets.REMOTE_USER }}/web/quicksummit.net/public_html/
+          local_path: './dist/*'
+          remote_path: '/home/${{ secrets.REMOTE_USER }}/web/quicksummit.net/public_html/'
+          sftp_only: true
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
