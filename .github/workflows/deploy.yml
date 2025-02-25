@@ -50,7 +50,7 @@ jobs:
           sftp_only: true
           password: ${{ secrets.REMOTE_PASSWORD }}
 
-      - name: Copy and fix permissions
+      - name: Copy files and fix ownership
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.REMOTE_HOST }}
@@ -61,32 +61,18 @@ jobs:
             # Clear the destination directory first
             sudo rm -rf /home/admin/web/quicksummit.net/public_html/*
             
-            # For each file in the source directory
-            for file in /home/admin/deploy/site/*; do
-              if [ -f "$file" ]; then
-                filename=$(basename "$file")
-                echo "Copying $filename..."
-                sudo cp "$file" "/home/admin/web/quicksummit.net/public_html/$filename"
-              fi
-            done
+            # Copy files
+            sudo cp -r /home/admin/deploy/site/* /home/admin/web/quicksummit.net/public_html/
             
-            # Handle subdirectories
-            for dir in /home/admin/deploy/site/*/; do
-              if [ -d "$dir" ]; then
-                dirname=$(basename "$dir")
-                echo "Copying directory $dirname..."
-                sudo cp -r "$dir" "/home/admin/web/quicksummit.net/public_html/"
-              fi
-            done
-
-            # Use HestiaCP command to set proper ownership
-            sudo v-change-web-domain-owner admin quicksummit.net admin
+            # Fix ownership - this is crucial
+            sudo chown -R admin:admin /home/admin/web/quicksummit.net/public_html/
             
-            # Set proper permissions
-            sudo chmod 755 /home/admin/web/quicksummit.net/public_html
+            # Set directory permissions
             sudo find /home/admin/web/quicksummit.net/public_html/ -type d -exec chmod 755 {} \;
+            
+            # Set file permissions
             sudo find /home/admin/web/quicksummit.net/public_html/ -type f -exec chmod 644 {} \;
             
-            # List files to verify
-            echo "Listing files in web directory:"
+            # Verify the changes
+            echo "Checking ownership and permissions:"
             ls -la /home/admin/web/quicksummit.net/public_html/
