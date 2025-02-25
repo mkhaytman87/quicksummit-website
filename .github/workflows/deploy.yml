@@ -32,10 +32,10 @@ jobs:
       - name: Deploy via SFTP
         uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
-          username: ${{ secrets.FTP_USER }}
+          username: ${{ secrets.REMOTE_USER }}
           server: ${{ secrets.REMOTE_HOST }}
           port: 22
           local_path: './dist/*'
-          remote_path: '/'
+          remote_path: '/home/${{ secrets.REMOTE_USER }}/web/quicksummit.net/public_html/'
           sftp_only: true
-          password: ${{ secrets.FTP_PASSWORD }}
+          password: ${{ secrets.REMOTE_PASSWORD }}
