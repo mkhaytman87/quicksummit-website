@@ -33,7 +33,7 @@ jobs:
       - name: Copy .htaccess
         run: cp .htaccess dist/
 
-      - name: Deploy to server
+      - name: Prepare server directory
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.REMOTE_HOST }}
@@ -41,11 +41,10 @@ jobs:
           password: ${{ secrets.REMOTE_PASSWORD }}
           port: 22
           script: |
-            # Create a temporary directory for the build
-            mkdir -p /home/admin/tmp_deploy
-            
-            # Clear the existing web directory
-            sudo rm -rf /home/admin/web/quicksummit.net/public_html/*
+            # Create temp directory with proper permissions
+            rm -rf ~/deploy-temp
+            mkdir -p ~/deploy-temp
+            chmod 755 ~/deploy-temp
 
       - name: Deploy built files via SFTP
         uses: wlixcc/SFTP-Deploy-Action@v1.2.4
@@ -54,11 +53,11 @@ jobs:
           server: ${{ secrets.REMOTE_HOST }}
           port: 22
           local_path: './dist/*'
-          remote_path: '/home/admin/web/quicksummit.net/public_html/'
+          remote_path: '/home/linuxuser/deploy-temp/'
           sftp_only: true
           password: ${{ secrets.REMOTE_PASSWORD }}
 
-      - name: Fix permissions
+      - name: Verify deployment
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.REMOTE_HOST }}
@@ -66,13 +65,22 @@ jobs:
           password: ${{ secrets.REMOTE_PASSWORD }}
           port: 22
           script: |
-            # Fix ownership
-            sudo chown -R admin:admin /home/admin/web/quicksummit.net/public_html/
+            echo "Files ready in temporary directory:"
+            ls -la ~/deploy-temp/
             
-            # Fix permissions
-            sudo find /home/admin/web/quicksummit.net/public_html/ -type d -exec chmod 755 {} \;
-            sudo find /home/admin/web/quicksummit.net/public_html/ -type f -exec chmod 644 {} \;
+            echo "Creating deploy script..."
+            cat > ~/deploy.sh << 'EOL'
+            #!/bin/bash
+            if [ -d "/home/linuxuser/deploy-temp" ] && [ "$(ls -A /home/linuxuser/deploy-temp)" ]; then
+              echo "Found files to deploy at $(date)"
+              sudo rm -rf /home/admin/web/quicksummit.net/public_html/*
+              sudo cp -r /home/linuxuser/deploy-temp/* /home/admin/web/quicksummit.net/public_html/
+              sudo chown -R admin:admin /home/admin/web/quicksummit.net/public_html/
+              sudo find /home/admin/web/quicksummit.net/public_html/ -type d -exec chmod 755 {} \;
+              sudo find /home/admin/web/quicksummit.net/public_html/ -type f -exec chmod 644 {} \;
+              echo "Deployment complete at $(date)"
+            fi
+            EOL
             
-            # List files to verify
-            echo "Checking web directory contents:"
-            ls -la /home/admin/web/quicksummit.net/public_html/
+            chmod +x ~/deploy.sh
+            echo "Created deploy script. Set up a cron job to run this script periodically."
