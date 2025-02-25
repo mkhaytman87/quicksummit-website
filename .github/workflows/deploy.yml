@@ -29,7 +29,7 @@ jobs:
       - name: Copy .htaccess
         run: cp .htaccess dist/
 
-      - name: Set up SSH connection
+      - name: Deploy to server
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.REMOTE_HOST }}
@@ -37,20 +37,24 @@ jobs:
           password: ${{ secrets.REMOTE_PASSWORD }}
           port: 22
           script: |
-            mkdir -p /home/admin/deploy/site
+            # Create a temporary directory for the build
+            mkdir -p /home/admin/tmp_deploy
+            
+            # Clear the existing web directory
+            sudo rm -rf /home/admin/web/quicksummit.net/public_html/*
 
-      - name: Deploy via SFTP
+      - name: Deploy built files via SFTP
         uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
           username: ${{ secrets.REMOTE_USER }}
           server: ${{ secrets.REMOTE_HOST }}
           port: 22
           local_path: './dist/*'
-          remote_path: '/home/admin/deploy/site/'
+          remote_path: '/home/admin/web/quicksummit.net/public_html/'
           sftp_only: true
           password: ${{ secrets.REMOTE_PASSWORD }}
 
-      - name: Copy files and fix ownership
+      - name: Fix permissions
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.REMOTE_HOST }}
@@ -58,21 +62,13 @@ jobs:
           password: ${{ secrets.REMOTE_PASSWORD }}
           port: 22
           script: |
-            # Clear the destination directory first
-            sudo rm -rf /home/admin/web/quicksummit.net/public_html/*
-            
-            # Copy files
-            sudo cp -r /home/admin/deploy/site/* /home/admin/web/quicksummit.net/public_html/
-            
-            # Fix ownership - this is crucial
+            # Fix ownership
             sudo chown -R admin:admin /home/admin/web/quicksummit.net/public_html/
             
-            # Set directory permissions
+            # Fix permissions
             sudo find /home/admin/web/quicksummit.net/public_html/ -type d -exec chmod 755 {} \;
-            
-            # Set file permissions
             sudo find /home/admin/web/quicksummit.net/public_html/ -type f -exec chmod 644 {} \;
             
-            # Verify the changes
-            echo "Checking ownership and permissions:"
+            # List files to verify
+            echo "Checking web directory contents:"
             ls -la /home/admin/web/quicksummit.net/public_html/
