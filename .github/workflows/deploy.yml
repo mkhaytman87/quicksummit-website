@@ -50,7 +50,7 @@ jobs:
           sftp_only: true
           password: ${{ secrets.REMOTE_PASSWORD }}
 
-      - name: Copy files with proper permissions
+      - name: Copy and fix permissions
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.REMOTE_HOST }}
@@ -66,8 +66,7 @@ jobs:
               if [ -f "$file" ]; then
                 filename=$(basename "$file")
                 echo "Copying $filename..."
-                # Use v-copy-file to copy with proper permissions
-                sudo v-copy-fs-file admin "/home/admin/deploy/site/$filename" "/home/admin/web/quicksummit.net/public_html/$filename"
+                sudo cp "$file" "/home/admin/web/quicksummit.net/public_html/$filename"
               fi
             done
             
@@ -76,36 +75,18 @@ jobs:
               if [ -d "$dir" ]; then
                 dirname=$(basename "$dir")
                 echo "Copying directory $dirname..."
-                sudo mkdir -p "/home/admin/web/quicksummit.net/public_html/$dirname"
-                for file in "$dir"*; do
-                  if [ -f "$file" ]; then
-                    filename=$(basename "$file")
-                    sudo v-copy-fs-file admin "$file" "/home/admin/web/quicksummit.net/public_html/$dirname/$filename"
-                  fi
-                done
+                sudo cp -r "$dir" "/home/admin/web/quicksummit.net/public_html/"
               fi
             done
 
-      - name: Fix web permissions
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.REMOTE_HOST }}
-          username: ${{ secrets.REMOTE_USER }}
-          password: ${{ secrets.REMOTE_PASSWORD }}
-          port: 22
-          script: |
-            # Fix ownership
-            sudo chown -R admin:admin /home/admin/web/quicksummit.net/public_html/
+            # Use HestiaCP command to set proper ownership
+            sudo v-change-web-domain-owner admin quicksummit.net admin
             
-            # Fix permissions
+            # Set proper permissions
+            sudo chmod 755 /home/admin/web/quicksummit.net/public_html
             sudo find /home/admin/web/quicksummit.net/public_html/ -type d -exec chmod 755 {} \;
             sudo find /home/admin/web/quicksummit.net/public_html/ -type f -exec chmod 644 {} \;
             
-            # Ensure .htaccess has correct permissions
-            sudo chmod 644 /home/admin/web/quicksummit.net/public_html/.htaccess
-            
-            # Check what files we have
+            # List files to verify
+            echo "Listing files in web directory:"
             ls -la /home/admin/web/quicksummit.net/public_html/
-            
-            # Check error logs
-            tail -n 50 /var/log/apache2/error.log
