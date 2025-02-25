@@ -24,7 +24,11 @@ jobs:
         run: npm ci
 
       - name: Build
-        run: npm run build
+        run: |
+          echo "Building Astro site..."
+          npm run build
+          echo "Build complete. Contents of dist directory:"
+          ls -la dist/
 
       - name: Copy .htaccess
         run: cp .htaccess dist/
