@@ -34,7 +34,7 @@ jobs:
         with:
           username: ${{ secrets.FTP_USER }}
           server: ${{ secrets.REMOTE_HOST }}
-          port: 21
+          port: 22
           local_path: './dist/*'
           remote_path: '/'
           sftp_only: true
