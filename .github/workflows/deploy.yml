@@ -33,7 +33,10 @@ jobs:
       - name: Copy .htaccess
         run: cp .htaccess dist/
 
-      - name: Prepare deploy directory
+      - name: Install sshpass
+        run: sudo apt-get install -y sshpass
+
+      - name: Prepare remote directory
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.REMOTE_HOST }}
@@ -41,20 +44,16 @@ jobs:
           password: ${{ secrets.REMOTE_PASSWORD }}
           port: 22
           script: |
-            # Clean up deploy-temp directory
             rm -rf ~/deploy-temp/*
             mkdir -p ~/deploy-temp
 
-      - name: Deploy built files via SFTP
-        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
-        with:
-          username: ${{ secrets.REMOTE_USER }}
-          server: ${{ secrets.REMOTE_HOST }}
-          port: 22
-          local_path: './dist/*'
-          remote_path: '/home/linuxuser/deploy-temp/'
-          sftp_only: true
-          password: ${{ secrets.REMOTE_PASSWORD }}
+      - name: Deploy via SFTP
+        run: |
+          cd dist
+          sshpass -p "${{ secrets.REMOTE_PASSWORD }}" sftp -o StrictHostKeyChecking=no -P 22 ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} << 'EOF'
+          cd /home/linuxuser/deploy-temp
+          put -r *
+          EOF
 
       - name: Verify deployment
         uses: appleboy/ssh-action@master
