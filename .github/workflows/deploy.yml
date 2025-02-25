@@ -29,15 +29,22 @@ jobs:
       - name: Copy .htaccess
         run: cp .htaccess dist/
 
-      - name: Setup SSH
+      - name: Set up SSH
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
-          ssh-keyscan -t rsa quicksummit.net >> ~/.ssh/known_hosts
+          echo "${{ secrets.REMOTE_HOST }} $(ssh-keyscan ${{ secrets.REMOTE_HOST }} 2>/dev/null | grep -v '^#')" >> ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
+
+      - name: Test SSH connection
+        run: |
+          ssh -v -i ~/.ssh/deploy_key -p ${{ secrets.REMOTE_PORT }} -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "echo SSH connection successful"
 
       - name: Deploy with rsync
+        if: success()
         run: |
-          rsync -avz --delete -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no" \
-            dist/ \
-            ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:/home/${{ secrets.REMOTE_USER }}/web/quicksummit.net/public_html/
+          rsync -avz --delete \
+          -e "ssh -i ~/.ssh/deploy_key -p ${{ secrets.REMOTE_PORT }} -o StrictHostKeyChecking=no" \
+          dist/ \
+          ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:/home/${{ secrets.REMOTE_USER }}/web/quicksummit.net/public_html/
