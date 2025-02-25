@@ -33,40 +33,16 @@ jobs:
       - name: Copy .htaccess
         run: cp .htaccess dist/
 
-      - name: Install sshpass
-        run: sudo apt-get install -y sshpass
-
-      - name: Prepare remote directory
-        uses: appleboy/ssh-action@master
+      - name: Deploy via FTP
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
-          host: ${{ secrets.REMOTE_HOST }}
-          username: ${{ secrets.REMOTE_USER }}
-          password: ${{ secrets.REMOTE_PASSWORD }}
-          port: 22
-          script: |
-            rm -rf ~/deploy-temp/*
-            mkdir -p ~/deploy-temp
-
-      - name: Deploy via SFTP
-        env:
-          SSHPASS: ${{ secrets.REMOTE_PASSWORD }}
-        run: |
-          echo "Current directory contents:"
-          ls -la
-          echo "Entering dist directory..."
-          cd dist
-          echo "dist directory contents:"
-          ls -la
-          echo "Starting SFTP transfer..."
-          
-          # Create a batch file for sftp commands
-          echo "mkdir -p /home/linuxuser/deploy-temp" > sftp_commands.txt
-          echo "cd /home/linuxuser/deploy-temp" >> sftp_commands.txt
-          echo "put -r ./*" >> sftp_commands.txt
-          echo "bye" >> sftp_commands.txt
-          
-          # Execute sftp with the commands file
-          sshpass -e sftp -o StrictHostKeyChecking=no -b sftp_commands.txt ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}
+          username: deployquicksummit
+          server: ${{ secrets.REMOTE_HOST }}
+          port: 21
+          local_path: './dist/*'
+          remote_path: '/'
+          sftp_only: false
+          password: ${{ secrets.FTP_PASSWORD }}
 
       - name: Verify deployment
         uses: appleboy/ssh-action@master
@@ -76,11 +52,5 @@ jobs:
           password: ${{ secrets.REMOTE_PASSWORD }}
           port: 22
           script: |
-            echo "Files uploaded to deploy-temp:"
-            ls -la ~/deploy-temp/
-            
-            echo "Waiting for cron job to process files..."
-            sleep 65
-            
             echo "Files in web directory:"
             ls -la /home/admin/web/quicksummit.net/public_html/
