@@ -38,4 +38,4 @@ jobs:
           local_path: './dist/*'
           remote_path: '/home/${{ secrets.REMOTE_USER }}/web/quicksummit.net/public_html/'
           sftp_only: true
-          password: ${{ secrets.REMOTE_PASSWORD }}
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
