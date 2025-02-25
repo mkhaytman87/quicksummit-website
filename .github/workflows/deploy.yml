@@ -85,3 +85,27 @@ jobs:
                 done
               fi
             done
+
+      - name: Fix web permissions
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          password: ${{ secrets.REMOTE_PASSWORD }}
+          port: 22
+          script: |
+            # Fix ownership
+            sudo chown -R admin:admin /home/admin/web/quicksummit.net/public_html/
+            
+            # Fix permissions
+            sudo find /home/admin/web/quicksummit.net/public_html/ -type d -exec chmod 755 {} \;
+            sudo find /home/admin/web/quicksummit.net/public_html/ -type f -exec chmod 644 {} \;
+            
+            # Ensure .htaccess has correct permissions
+            sudo chmod 644 /home/admin/web/quicksummit.net/public_html/.htaccess
+            
+            # Check what files we have
+            ls -la /home/admin/web/quicksummit.net/public_html/
+            
+            # Check error logs
+            tail -n 50 /var/log/apache2/error.log
