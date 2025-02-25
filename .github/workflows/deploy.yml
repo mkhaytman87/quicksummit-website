@@ -50,7 +50,7 @@ jobs:
           sftp_only: true
           password: ${{ secrets.REMOTE_PASSWORD }}
 
-      - name: Run deploy script
+      - name: Copy files with proper permissions
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.REMOTE_HOST }}
@@ -58,9 +58,30 @@ jobs:
           password: ${{ secrets.REMOTE_PASSWORD }}
           port: 22
           script: |
-            if [ ! -f /home/admin/deploy/deploy.sh ]; then
-              echo '#!/bin/bash' > /home/admin/deploy/deploy.sh
-              echo 'rsync -av /home/admin/deploy/site/ /home/admin/web/quicksummit.net/public_html/' >> /home/admin/deploy/deploy.sh
-              chmod +x /home/admin/deploy/deploy.sh
-            fi
-            /home/admin/deploy/deploy.sh
+            # Clear the destination directory first
+            sudo rm -rf /home/admin/web/quicksummit.net/public_html/*
+            
+            # For each file in the source directory
+            for file in /home/admin/deploy/site/*; do
+              if [ -f "$file" ]; then
+                filename=$(basename "$file")
+                echo "Copying $filename..."
+                # Use v-copy-file to copy with proper permissions
+                sudo v-copy-fs-file admin "/home/admin/deploy/site/$filename" "/home/admin/web/quicksummit.net/public_html/$filename"
+              fi
+            done
+            
+            # Handle subdirectories
+            for dir in /home/admin/deploy/site/*/; do
+              if [ -d "$dir" ]; then
+                dirname=$(basename "$dir")
+                echo "Copying directory $dirname..."
+                sudo mkdir -p "/home/admin/web/quicksummit.net/public_html/$dirname"
+                for file in "$dir"*; do
+                  if [ -f "$file" ]; then
+                    filename=$(basename "$file")
+                    sudo v-copy-fs-file admin "$file" "/home/admin/web/quicksummit.net/public_html/$dirname/$filename"
+                  fi
+                done
+              fi
+            done
