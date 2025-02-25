@@ -36,6 +36,12 @@ jobs:
       - name: Copy .htaccess
         run: cp .htaccess dist/
 
+      - name: Test FTP Connection
+        run: |
+          sudo apt-get install -y lftp
+          echo "Testing FTP connection..."
+          lftp -e "set ssl:verify-certificate no; ls; quit" -u deployquicksummit,${{ secrets.FTP_PASSWORD }} ${{ secrets.REMOTE_HOST }}
+
       - name: 📂 Deploy via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
@@ -44,7 +50,8 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./dist/
           server-dir: /
-          protocol: ftps
+          protocol: ftp
+          port: 21
           timeout: 60000
 
       - name: Verify deployment
