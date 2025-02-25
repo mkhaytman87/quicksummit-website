@@ -6,20 +6,15 @@ on:
       - deployment
   workflow_dispatch:
 
-permissions:
-  contents: read
-  deployments: write
-
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    environment: 
-      name: production
-      url: https://quicksummit.net
     
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -38,11 +33,11 @@ jobs:
 
       - name: Deploy to Server
         uses: easingthemes/ssh-deploy@main
-        with:
+        env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          REMOTE_HOST: ${{ secrets.SSH_HOST }}
-          REMOTE_USER: ${{ secrets.SSH_USER }}
-          REMOTE_PORT: ${{ secrets.SSH_PORT }}
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          REMOTE_PORT: ${{ secrets.REMOTE_PORT }}
           SOURCE: "dist/"
-          TARGET: "/home/${{ secrets.SSH_USER }}/web/quicksummit.net/public_html/"
-          ARGS: "-rltgoDzvO"
+          TARGET: "/home/${{ secrets.REMOTE_USER }}/web/quicksummit.net/public_html/"
+          ARGS: "-rltgoDzvO --no-perms"
