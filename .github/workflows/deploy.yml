@@ -48,12 +48,23 @@ jobs:
             mkdir -p ~/deploy-temp
 
       - name: Deploy via SFTP
+        env:
+          SSHPASS: ${{ secrets.REMOTE_PASSWORD }}
         run: |
+          echo "Current directory contents:"
+          ls -la
+          echo "Entering dist directory..."
           cd dist
-          sshpass -p "${{ secrets.REMOTE_PASSWORD }}" sftp -o StrictHostKeyChecking=no -P 22 ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} << 'EOF'
+          echo "dist directory contents:"
+          ls -la
+          echo "Starting SFTP transfer..."
+          export SSHPASS=${{ secrets.REMOTE_PASSWORD }}
+          sshpass -e sftp -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} << 'ENDSSH'
+          mkdir -p /home/linuxuser/deploy-temp
           cd /home/linuxuser/deploy-temp
-          put -r *
-          EOF
+          put -r ./*
+          bye
+          ENDSSH
 
       - name: Verify deployment
         uses: appleboy/ssh-action@master
