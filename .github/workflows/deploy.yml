@@ -29,6 +29,14 @@ jobs:
       - name: Copy .htaccess
         run: cp .htaccess dist/
 
+      - name: Debug Connection
+        run: |
+          echo "Testing connection info:"
+          echo "Host: ${{ secrets.REMOTE_HOST }}"
+          echo "User: ${{ secrets.REMOTE_USER }}"
+          echo "Port: 22"
+          echo "Path: /home/${{ secrets.REMOTE_USER }}/web/quicksummit.net/public_html/"
+
       - name: Deploy via SFTP
         uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
