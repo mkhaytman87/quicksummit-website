@@ -29,15 +29,15 @@ jobs:
       - name: Copy .htaccess
         run: cp .htaccess dist/
 
-      - name: Install SSH Key
-        uses: shimataro/ssh-key-action@v2
-        with:
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          known_hosts: ${{ secrets.REMOTE_HOST }}
-          if_key_exists: replace
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -t rsa quicksummit.net >> ~/.ssh/known_hosts
 
       - name: Deploy with rsync
         run: |
-          rsync -avz --delete \
+          rsync -avz --delete -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no" \
             dist/ \
             ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:/home/${{ secrets.REMOTE_USER }}/web/quicksummit.net/public_html/
