@@ -6,10 +6,16 @@ on:
       - deployment
   workflow_dispatch:
 
+permissions:
+  contents: read
+  deployments: write
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    environment: production
+    environment: 
+      name: production
+      url: https://quicksummit.net
     
     steps:
       - name: Checkout
@@ -30,11 +36,22 @@ jobs:
       - name: Copy .htaccess
         run: cp .htaccess dist/
 
+      - name: Debug environment
+        run: |
+          echo "Checking environment setup..."
+          echo "SSH_HOST is set: ${{ secrets.SSH_HOST != '' }}"
+          echo "SSH_USER is set: ${{ secrets.SSH_USER != '' }}"
+          echo "SSH_PORT is set: ${{ secrets.SSH_PORT != '' }}"
+          echo "Has SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY != '' }}"
+          echo "Has SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS != '' }}"
+
       - name: Install SSH Key
         uses: shimataro/ssh-key-action@v2
         with:
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          known_hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
+          key: |
+            ${{ secrets.SSH_PRIVATE_KEY }}
+          known_hosts: |
+            ${{ secrets.SSH_KNOWN_HOSTS }}
           if_key_exists: replace
 
       - name: Deploy to Server
