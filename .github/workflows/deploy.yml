@@ -58,13 +58,15 @@ jobs:
           echo "dist directory contents:"
           ls -la
           echo "Starting SFTP transfer..."
-          export SSHPASS=${{ secrets.REMOTE_PASSWORD }}
-          sshpass -e sftp -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} << 'ENDSSH'
-          mkdir -p /home/linuxuser/deploy-temp
-          cd /home/linuxuser/deploy-temp
-          put -r ./*
-          bye
-          ENDSSH
+          
+          # Create a batch file for sftp commands
+          echo "mkdir -p /home/linuxuser/deploy-temp" > sftp_commands.txt
+          echo "cd /home/linuxuser/deploy-temp" >> sftp_commands.txt
+          echo "put -r ./*" >> sftp_commands.txt
+          echo "bye" >> sftp_commands.txt
+          
+          # Execute sftp with the commands file
+          sshpass -e sftp -o StrictHostKeyChecking=no -b sftp_commands.txt ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}
 
       - name: Verify deployment
         uses: appleboy/ssh-action@master
