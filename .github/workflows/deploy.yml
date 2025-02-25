@@ -36,29 +36,13 @@ jobs:
       - name: Copy .htaccess
         run: cp .htaccess dist/
 
-      - name: Debug environment
-        run: |
-          echo "Checking environment setup..."
-          echo "SSH_HOST is set: ${{ secrets.SSH_HOST != '' }}"
-          echo "SSH_USER is set: ${{ secrets.SSH_USER != '' }}"
-          echo "SSH_PORT is set: ${{ secrets.SSH_PORT != '' }}"
-          echo "Has SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY != '' }}"
-          echo "Has SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS != '' }}"
-
-      - name: Install SSH Key
-        uses: shimataro/ssh-key-action@v2
-        with:
-          key: |
-            ${{ secrets.SSH_PRIVATE_KEY }}
-          known_hosts: |
-            ${{ secrets.SSH_KNOWN_HOSTS }}
-          if_key_exists: replace
-
       - name: Deploy to Server
-        run: |
-          echo "Starting deployment..."
-          rsync -avz --delete \
-            -e "ssh -p ${{ secrets.SSH_PORT }}" \
-            ./dist/ \
-            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/web/quicksummit.net/public_html/
-          echo "Deployment complete"
+        uses: easingthemes/ssh-deploy@main
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          REMOTE_HOST: ${{ secrets.SSH_HOST }}
+          REMOTE_USER: ${{ secrets.SSH_USER }}
+          REMOTE_PORT: ${{ secrets.SSH_PORT }}
+          SOURCE: "dist/"
+          TARGET: "/home/${{ secrets.SSH_USER }}/web/quicksummit.net/public_html/"
+          ARGS: "-rltgoDzvO"
