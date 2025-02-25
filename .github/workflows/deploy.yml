@@ -29,7 +29,7 @@ jobs:
       - name: Copy .htaccess
         run: cp .htaccess dist/
 
-      - name: Set up SSH
+      - name: Debug SSH Setup
         run: |
           # Debug: Print secret availability (not values)
           echo "Checking secrets..."
@@ -38,45 +38,36 @@ jobs:
           echo "REMOTE_PORT is set: ${{ secrets.REMOTE_PORT != '' }}"
           echo "SSH_PRIVATE_KEY is set: ${{ secrets.SSH_PRIVATE_KEY != '' }}"
           
-          # Create .ssh directory
+          # Create .ssh directory and set permissions
           mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
           
-          # Write SSH key
+          # Write SSH key and set permissions
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
           
-          # Set port with default
-          PORT="${{ secrets.REMOTE_PORT }}"
-          if [ -z "$PORT" ]; then 
-            echo "No port specified, using default port 22"
-            PORT=22
-          fi
-          echo "Using port: $PORT"
+          # Debug key file
+          echo "SSH key file contents (first line only):"
+          head -n 1 ~/.ssh/deploy_key
           
-          # Add host key
-          echo "Running ssh-keyscan for ${{ secrets.REMOTE_HOST }} on port $PORT"
-          ssh-keyscan -p "$PORT" "${{ secrets.REMOTE_HOST }}" >> ~/.ssh/known_hosts
+          # Add host key with explicit port
+          echo "Adding host key for ${{ secrets.REMOTE_HOST }}"
+          ssh-keyscan -p "${{ secrets.REMOTE_PORT }}" "${{ secrets.REMOTE_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null
           chmod 644 ~/.ssh/known_hosts
 
-      - name: Test SSH connection
+      - name: Test SSH Connection
         run: |
-          PORT="${{ secrets.REMOTE_PORT }}"
-          if [ -z "$PORT" ]; then PORT=22; fi
-          
-          echo "Testing SSH connection to ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} on port $PORT"
+          echo "Testing SSH connection..."
           ssh -v -i ~/.ssh/deploy_key \
-              -p "$PORT" \
+              -p "${{ secrets.REMOTE_PORT }}" \
               "${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}" \
-              "echo SSH connection successful"
+              "pwd && whoami"
 
       - name: Deploy with rsync
         if: success()
         run: |
-          PORT="${{ secrets.REMOTE_PORT }}"
-          if [ -z "$PORT" ]; then PORT=22; fi
-          
-          echo "Deploying with rsync to ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:$PORT"
+          echo "Starting rsync deployment..."
           rsync -avz --delete \
-            -e "ssh -i ~/.ssh/deploy_key -p $PORT" \
+            -e "ssh -i ~/.ssh/deploy_key -p ${{ secrets.REMOTE_PORT }}" \
             dist/ \
             "${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:/home/${{ secrets.REMOTE_USER }}/web/quicksummit.net/public_html/"
