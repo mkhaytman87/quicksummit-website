@@ -22,8 +22,12 @@
 
 <body <?php body_class('min-h-screen bg-white'); ?>>
 <?php
+// Check if the shared header plugin exists by checking for its file
+$plugin_path = WP_PLUGIN_DIR . '/quicksummit-shared-header/quicksummit-shared-header.php';
+$shared_header_active = file_exists($plugin_path);
+
 // Only show the theme's header if the shared header plugin is not active
-if (!is_plugin_active('quicksummit-shared-header/quicksummit-shared-header.php')):
+if (!$shared_header_active):
 ?>
     <header class="fixed w-full bg-white/95 backdrop-blur-sm z-50 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
