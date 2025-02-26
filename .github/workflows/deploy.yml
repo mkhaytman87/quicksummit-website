@@ -41,19 +41,13 @@ jobs:
           cp -r wordpress/wp-content/plugins/quicksummit-* dist/blog/wp-content/plugins/ || true
 
       - name: Deploy to Server
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
-          server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
+          server: ${{ secrets.FTP_SERVER }}
+          port: 22
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./dist/
-          server-dir: /home/admin/web/quicksummit.net/public_html/
-          exclude: |
-            **/.git*
-            **/.git*/**
-            **/node_modules/**
-            wp-config.php
-            **/*.log
-            **/debug.php
-            **/info.php
-            **/test*.php
+          local_path: './dist/*'
+          remote_path: '/home/admin/web/quicksummit.net/public_html'
+          sftp_only: true
+          delete_remote_files: false
