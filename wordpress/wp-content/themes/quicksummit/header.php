@@ -21,6 +21,10 @@
 </head>
 
 <body <?php body_class('min-h-screen bg-white'); ?>>
+<?php
+// Only show the theme's header if the shared header plugin is not active
+if (!is_plugin_active('quicksummit-shared-header/quicksummit-shared-header.php')):
+?>
     <header class="fixed w-full bg-white/95 backdrop-blur-sm z-50 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center py-4">
@@ -46,29 +50,18 @@
 
                 <!-- Mobile menu button -->
                 <button type="button"
-                    class="md:hidden inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
-                    aria-expanded="false" id="mobile-menu-button">
+                    class="md:hidden inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100"
+                    aria-expanded="false">
                     <span class="sr-only">Open main menu</span>
-                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    <!-- Icon when menu is closed -->
+                    <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4 6h16M4 12h16M4 18h16"></path>
+                            d="M4 6h16M4 12h16M4 18h16" />
                     </svg>
                 </button>
             </div>
-
-            <!-- Mobile Navigation -->
-            <div class="md:hidden hidden" id="mobile-menu">
-                <div class="px-2 pt-2 pb-3 space-y-1">
-                    <a href="/" class="block px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-md">Home</a>
-                    <a href="/services" class="block px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-md">Services</a>
-                    <a href="/blog" class="block px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-md">Blog</a>
-                    <a href="/about" class="block px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-md">About</a>
-                    <a href="/contact" class="block px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-md">Contact</a>
-                    <a href="/consultation" class="block px-3 py-2 text-white bg-indigo-600 hover:bg-indigo-700 rounded-md">Book a Free Consultation</a>
-                </div>
-            </div>
         </div>
     </header>
-
+<?php endif; ?>
     <div class="wp-content pt-24"><!-- Added padding-top to account for fixed header -->
