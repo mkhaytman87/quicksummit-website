@@ -25,16 +25,20 @@ jobs:
       - name: Build Astro Site
         run: npm run build
 
-      - name: Copy .htaccess
+      - name: Prepare Directories
+        run: |
+          mkdir -p dist/blog/wp-content/themes
+          mkdir -p dist/blog/wp-content/plugins
+
+      - name: Copy .htaccess Files
         run: |
           cp .htaccess dist/
           cp wordpress/.htaccess dist/blog/
 
-      - name: Prepare WordPress Files
+      - name: Copy WordPress Files
         run: |
-          mkdir -p dist/blog
           cp -r wordpress/wp-content/themes/quicksummit dist/blog/wp-content/themes/
-          cp -r wordpress/wp-content/plugins/quicksummit-* dist/blog/wp-content/plugins/
+          cp -r wordpress/wp-content/plugins/quicksummit-* dist/blog/wp-content/plugins/ || true
 
       - name: Deploy to Server
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
