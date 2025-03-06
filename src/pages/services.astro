@@ -105,6 +105,16 @@ const industries = [
   { name: "Logistics & Supply Chain", icon: "🚚" },
   { name: "Professional Services", icon: "👔" }
 ];
+
+// List of specialized service pages
+const specializedServices = [
+  {
+    title: "Customer Service AI",
+    description: "AI-powered solutions for customer support, including chatbots, automation, and voice assistants.",
+    icon: "💬",
+    link: "/customer-service-ai"
+  }
+];
 ---
 
 <Layout title="Our Services - QuickSummit">
@@ -118,7 +128,31 @@ const industries = [
           Discover how our AI solutions can transform your business operations
         </p>
       </div>
-
+      
+      <!-- Specialized Service Areas -->
+      {specializedServices.length > 0 && (
+        <div class="mt-12">
+          <h2 class="text-2xl font-bold text-gray-900 mb-6">Specialized Service Areas</h2>
+          <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {specializedServices.map((service) => (
+              <a href={service.link} class="bg-white rounded-lg shadow-lg overflow-hidden transition-transform hover:scale-105">
+                <div class="px-6 py-8">
+                  <div class="text-3xl mb-4">{service.icon}</div>
+                  <h3 class="text-xl font-bold text-gray-900">{service.title}</h3>
+                  <p class="mt-4 text-gray-500">{service.description}</p>
+                  <div class="mt-6 flex items-center text-indigo-600">
+                    <span>Learn more</span>
+                    <svg class="ml-2 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                    </svg>
+                  </div>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+      
       <div class="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
         <!-- AI Automation & Workflow Optimization -->
         <div class="bg-white rounded-lg shadow-lg overflow-hidden">
