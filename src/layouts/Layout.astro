@@ -4,9 +4,14 @@ import SharedHeader from '../components/SharedHeader.astro';
 interface Props {
   title: string;
   description?: string;
+  cacheBuster?: number;
 }
 
-const { title, description = "Empowering Your Business with AI-Powered Automation" } = Astro.props;
+const { 
+  title, 
+  description = "Empowering Your Business with AI-Powered Automation", 
+  cacheBuster = new Date().getTime() 
+} = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -29,7 +34,12 @@ const { title, description = "Empowering Your Business with AI-Powered Automatio
     </script>
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href={`/style.css?v=${cacheBuster}`} />
+    
+    <!-- Prevent browser caching -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
   </head>
   <body class="min-h-screen bg-white">
     <SharedHeader />
