@@ -28,6 +28,23 @@ jobs:
       - name: Build Astro Site
         run: npm run build
 
+      # Debug step to check dist contents
+      - name: List dist contents
+        run: |
+          echo "Contents of dist directory:"
+          ls -la dist/
+
+      # Ensure public assets are copied
+      - name: Copy Public Assets
+        run: |
+          cp -r public/* dist/
+
+      # Debug step to check after copy
+      - name: List dist contents after copy
+        run: |
+          echo "Contents of dist directory after copying public assets:"
+          ls -la dist/
+
       - name: Prepare Directories
         run: |
           mkdir -p dist/blog/wp-content/themes
