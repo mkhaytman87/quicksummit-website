@@ -12,11 +12,10 @@ export default defineConfig({
   ],
   site: 'https://quicksummit.net',
   outDir: './dist',
-  // Using '/' as base instead of the full URL
   base: '/',
   trailingSlash: 'never',
   build: {
-    format: 'file',
+    format: 'directory',
     inlineStylesheets: 'never'
   },
   vite: {
