@@ -15,7 +15,7 @@ export default defineConfig({
   base: '/',
   trailingSlash: 'never',
   build: {
-    format: 'directory',
+    format: 'file', // Reverting to 'file' format which works better with our CSS setup
     inlineStylesheets: 'never'
   },
   vite: {
