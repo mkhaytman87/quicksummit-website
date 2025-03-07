@@ -1,0 +1,276 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Footer from '../../components/Footer.astro';
+
+const cacheBuster = new Date().getTime();
+
+const stats = [
+  {
+    value: "70%",
+    label: "Cost Reduction",
+    description: "Running AI in-house can reduce operational costs by up to 70% compared to cloud AI services"
+  },
+  {
+    value: "20%+",
+    label: "Efficiency Gains",
+    description: "Top performing companies report over 20% cost reductions from AI automation"
+  },
+  {
+    value: "98%",
+    label: "Usage Rate",
+    description: "Morgan Stanley's AI assistant adoption rate among advisor teams, showing high ROI"
+  },
+  {
+    value: "72h",
+    label: "Knowledge Growth",
+    description: "Medical knowledge doubles every 72 days - AI helps teams keep up"
+  }
+];
+
+const successStories = [
+  {
+    company: "Morgan Stanley",
+    description: "Custom GPT-4 trained on 100,000+ research documents enables advisors to instantly access firm knowledge and draft client communications",
+    icon: "🏦"
+  },
+  {
+    company: "Bloomberg",
+    description: "BloombergGPT, trained on proprietary data, significantly outperforms general models on financial tasks",
+    icon: "📊"
+  },
+  {
+    company: "Vodafone",
+    description: "Private AI chatbot improved first-contact resolution from 15% to 60%, raising NPS by 14 points",
+    icon: "📱"
+  },
+  {
+    company: "Healthcare Network",
+    description: "AI model trained on patient records identifies early sepsis signs, enabling faster intervention",
+    icon: "🏥"
+  }
+];
+
+const industryInsights = [
+  {
+    industry: "Financial Services",
+    stats: "85% of firms will use AI by 2025",
+    description: "Custom AI models trained on proprietary financial data deliver more accurate insights for trading, risk assessment, and client service."
+  },
+  {
+    industry: "Healthcare",
+    stats: "55% faster response times with AI",
+    description: "HIPAA-compliant AI solutions process medical records and research, helping providers deliver better care while maintaining privacy."
+  },
+  {
+    industry: "Legal",
+    stats: "74% of billable tasks can be AI-assisted",
+    description: "Law firms use private AI to analyze cases, draft documents, and extract insights while protecting client confidentiality."
+  },
+  {
+    industry: "Manufacturing",
+    stats: "32% achieved 10-19% cost reduction",
+    description: "Custom AI optimizes production, predicts maintenance needs, and improves quality control in smart factories."
+  }
+];
+
+const features = [
+  {
+    title: "Data Privacy & Security",
+    description: "Your data never leaves your control - deploy AI on-premises or in your private cloud",
+    icon: "🔒",
+    benefits: [
+      "Complete data sovereignty",
+      "HIPAA, GDPR, and regulatory compliance",
+      "No third-party data exposure",
+      "Air-gapped deployment options"
+    ]
+  },
+  {
+    title: "Custom Training",
+    description: "AI models trained specifically on your organization's data and domain knowledge",
+    icon: "🎯",
+    benefits: [
+      "Higher accuracy for your use cases",
+      "Industry-specific language understanding",
+      "Proprietary knowledge integration",
+      "Continuous learning and improvement"
+    ]
+  },
+  {
+    title: "Flexible Deployment",
+    description: "Choose the infrastructure that meets your security and performance needs",
+    icon: "☁️",
+    benefits: [
+      "On-premises deployment",
+      "Private cloud options",
+      "Hybrid configurations",
+      "Edge computing support"
+    ]
+  },
+  {
+    title: "Enterprise Integration",
+    description: "Seamlessly connect AI with your existing systems and workflows",
+    icon: "🔄",
+    benefits: [
+      "API-first architecture",
+      "Legacy system compatibility",
+      "Custom workflow automation",
+      "Scalable infrastructure"
+    ]
+  }
+];
+
+---
+
+<Layout title="Custom-Trained AI Solutions - QuickSummit" cacheBuster={cacheBuster}>
+  <main class="pt-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Hero Section -->
+      <div class="text-center">
+        <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
+          Proprietary AI Solutions<br/>
+          <span class="text-indigo-600">Tailored to Your Business</span>
+        </h1>
+        <p class="mt-3 max-w-md mx-auto text-base text-gray-500 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
+          Unlock efficiency, safeguard data, and empower your teams with custom-trained AI that understands your business
+        </p>
+      </div>
+
+      <!-- Key Stats Section -->
+      <div class="mt-16">
+        <div class="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl shadow-xl overflow-hidden">
+          <div class="px-6 py-12 max-w-7xl mx-auto">
+            <h2 class="text-3xl font-extrabold tracking-tight text-white text-center mb-12">
+              The Power of Custom AI
+            </h2>
+            <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
+              {stats.map((stat) => (
+                <div class="text-white text-center">
+                  <p class="text-4xl font-extrabold">{stat.value}</p>
+                  <p class="text-lg mt-2 font-medium">{stat.label}</p>
+                  <p class="mt-1 text-indigo-100 text-sm">{stat.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Success Stories Section -->
+      <div class="mt-16">
+        <h2 class="text-3xl font-extrabold text-gray-900 text-center mb-10">
+          Success Stories
+        </h2>
+        <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+          {successStories.map((story) => (
+            <div class="bg-white rounded-lg shadow-lg p-6">
+              <div class="text-4xl mb-4">{story.icon}</div>
+              <h3 class="text-xl font-bold text-gray-900 mb-2">{story.company}</h3>
+              <p class="text-gray-600">{story.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Industry Insights -->
+      <div class="mt-16">
+        <h2 class="text-3xl font-extrabold text-gray-900 text-center mb-10">
+          Industry-Specific Solutions
+        </h2>
+        <div class="grid gap-8 md:grid-cols-2">
+          {industryInsights.map((insight) => (
+            <div class="bg-white rounded-lg shadow-lg p-6">
+              <h3 class="text-xl font-bold text-gray-900 mb-4">{insight.industry}</h3>
+              <p class="text-indigo-600 font-semibold mb-2">{insight.stats}</p>
+              <p class="text-gray-600">{insight.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Features Section -->
+      <div class="mt-16">
+        <h2 class="text-3xl font-extrabold text-gray-900 text-center mb-10">
+          Key Features
+        </h2>
+        <div class="grid gap-8 md:grid-cols-2">
+          {features.map((feature) => (
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+              <div class="px-6 py-8">
+                <div class="text-3xl mb-4">{feature.icon}</div>
+                <h3 class="text-2xl font-bold text-gray-900">{feature.title}</h3>
+                <p class="mt-4 text-gray-500">
+                  {feature.description}
+                </p>
+                <ul class="mt-6 space-y-4">
+                  {feature.benefits.map((benefit) => (
+                    <li class="flex items-start">
+                      <svg class="h-6 w-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                      </svg>
+                      <span class="ml-3 text-gray-500">{benefit}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- How It Works -->
+      <div class="mt-16">
+        <h2 class="text-3xl font-extrabold text-gray-900 text-center mb-10">
+          How It Works
+        </h2>
+        <div class="grid gap-8 md:grid-cols-4">
+          <div class="bg-white p-6 rounded-lg shadow-md text-center">
+            <div class="text-3xl mb-4">📊</div>
+            <h3 class="text-xl font-bold text-gray-900">1. Data Assessment</h3>
+            <p class="mt-2 text-gray-600">Analyze your data and requirements to design the optimal AI solution</p>
+          </div>
+          <div class="bg-white p-6 rounded-lg shadow-md text-center">
+            <div class="text-3xl mb-4">🎯</div>
+            <h3 class="text-xl font-bold text-gray-900">2. Model Training</h3>
+            <p class="mt-2 text-gray-600">Train AI models on your data with industry-leading techniques</p>
+          </div>
+          <div class="bg-white p-6 rounded-lg shadow-md text-center">
+            <div class="text-3xl mb-4">🚀</div>
+            <h3 class="text-xl font-bold text-gray-900">3. Deployment</h3>
+            <p class="mt-2 text-gray-600">Integrate AI seamlessly into your existing workflows</p>
+          </div>
+          <div class="bg-white p-6 rounded-lg shadow-md text-center">
+            <div class="text-3xl mb-4">📈</div>
+            <h3 class="text-xl font-bold text-gray-900">4. Optimization</h3>
+            <p class="mt-2 text-gray-600">Continuous monitoring and improvement of AI performance</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Call to Action -->
+      <div class="mt-16 text-center">
+        <h2 class="text-3xl font-extrabold text-gray-900 mb-4">
+          Ready to Build Your Custom AI Solution?
+        </h2>
+        <p class="text-xl text-gray-500 mb-8 max-w-3xl mx-auto">
+          Join industry leaders who are leveraging custom-trained AI to transform their operations. Schedule a consultation to discuss your needs.
+        </p>
+        <div class="flex justify-center space-x-4">
+          <a href="/consultation" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
+            Book a Free Consultation
+          </a>
+          <a href="/services" class="inline-flex items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-50">
+            View All Services
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 to-purple-600;
+  }
+</style>
