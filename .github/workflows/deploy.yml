@@ -43,6 +43,29 @@ jobs:
           cp -r wordpress/wp-content/themes/quicksummit dist/blog/wp-content/themes/
           cp -r wordpress/wp-content/plugins/quicksummit-* dist/blog/wp-content/plugins/ || true
 
+      # First deployment step - ensure directory exists
+      - name: Create Remote Directory
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          port: 22
+          script: |
+            mkdir -p /home/admin/web/quicksummit.net/public_html
+
+      # Second deployment step - clean the directory
+      - name: Clean Remote Directory
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          port: 22
+          script: |
+            rm -rf /home/admin/web/quicksummit.net/public_html/*
+
+      # Final deployment step - upload new files
       - name: Deploy to Server
         uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
@@ -53,4 +76,4 @@ jobs:
           local_path: './dist/*'
           remote_path: '/home/admin/web/quicksummit.net/public_html'
           sftp_only: true
-          delete_remote_files: true
+          delete_remote_files: false
