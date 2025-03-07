@@ -1,5 +1,6 @@
 ---
 import SharedHeader from '../components/SharedHeader.astro';
+import '../styles/global.css';
 
 interface Props {
   title: string;
@@ -34,6 +35,13 @@ const {
     </script>
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    
+    <!-- Directly import Tailwind styles -->
+    <style is:global>
+      @tailwind base;
+      @tailwind components;
+      @tailwind utilities;
+    </style>
     
     <!-- Update CSS path to be more resilient -->
     <link rel="stylesheet" href={`/style.css?v=${cacheBuster}`} />

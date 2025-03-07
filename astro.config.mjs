@@ -15,8 +15,8 @@ export default defineConfig({
   base: '/',
   trailingSlash: 'never',
   build: {
-    format: 'file', // Reverting to 'file' format which works better with our CSS setup
-    inlineStylesheets: 'never'
+    format: 'directory',
+    inlineStylesheets: 'always'
   },
   vite: {
     build: {
@@ -25,8 +25,7 @@ export default defineConfig({
         output: {
           assetFileNames: '[name][extname]'
         }
-      },
-      minify: false
+      }
     }
   }
 });
