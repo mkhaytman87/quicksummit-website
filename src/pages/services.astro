@@ -2,343 +2,117 @@
 import Layout from '../layouts/Layout.astro';
 import Footer from '../components/Footer.astro';
 
+const cacheBuster = new Date().getTime();
+
 const services = [
   {
-    title: "AI Automation & Workflow Optimization",
-    description: "Transform your business operations with intelligent automation that adapts and learns.",
-    icon: "🤖",
-    features: [
-      "Custom workflow automation solutions",
-      "Machine learning-powered process optimization",
-      "Intelligent document processing",
-      "Automated decision-making systems",
-      "Real-time performance monitoring"
-    ],
+    title: "Customer Service AI",
+    description: "Transform your support operations with AI-powered automation that improves response times, reduces costs, and enhances customer satisfaction.",
+    icon: "💬",
+    link: "/services/customer-service-ai",
     benefits: [
-      "Reduce operational costs by up to 40%",
-      "Minimize human error in critical processes",
-      "Increase productivity and throughput",
-      "24/7 automated operations"
-    ],
-    stats: {
-      value: "40%",
-      label: "Average Cost Reduction",
-      icon: "📈"
-    }
+      "Reduce support costs by up to 35%",
+      "Handle customer inquiries 24/7",
+      "Improve first-response time by 37%",
+      "Scale support without growing headcount"
+    ]
   },
   {
-    title: "Custom AI Solutions",
-    description: "Get tailored AI solutions designed specifically for your industry and unique business challenges.",
-    icon: "⚙️",
-    features: [
-      "Custom AI model development",
-      "Industry-specific solutions",
-      "Integration with existing systems",
-      "Scalable architecture design",
-      "Continuous model improvement"
-    ],
+    title: "Custom-Trained AI",
+    description: "Leverage your proprietary data with custom AI models that deliver unique insights and automate complex tasks while maintaining data privacy.",
+    icon: "🎯",
+    link: "/services/custom-trained-ai",
     benefits: [
-      "Solutions tailored to your exact needs",
-      "Competitive advantage through AI",
-      "Improved decision-making accuracy",
-      "Future-proof scalability"
-    ],
-    stats: {
-      value: "95%",
-      label: "Client Satisfaction Rate",
-      icon: "🎯"
-    }
+      "70% lower costs vs cloud AI",
+      "Complete data privacy control",
+      "Industry-specific customization",
+      "On-premises deployment options"
+    ]
+  },
+  {
+    title: "Process Automation",
+    description: "Coming soon - Streamline your operations with intelligent automation that handles routine tasks and complex workflows.",
+    icon: "⚡",
+    link: "#",
+    benefits: [
+      "Automate repetitive tasks",
+      "Reduce manual errors",
+      "Improve process efficiency",
+      "Real-time monitoring"
+    ]
   },
   {
     title: "Data Analytics & Insights",
-    description: "Unlock the power of your data with advanced analytics solutions.",
+    description: "Coming soon - Transform your data into actionable insights with AI-powered analytics and reporting.",
     icon: "📊",
-    features: [
-      "Advanced data analytics platforms",
-      "Predictive analytics models",
-      "Real-time data visualization",
-      "Business intelligence dashboards",
-      "Trend analysis and forecasting"
-    ],
+    link: "#",
     benefits: [
-      "Data-driven decision making",
-      "Improved forecast accuracy",
-      "Real-time business insights",
-      "Competitive market analysis"
-    ],
-    stats: {
-      value: "85%",
-      label: "Forecast Accuracy",
-      icon: "📊"
-    }
-  },
-  {
-    title: "AI Integration Services",
-    description: "Seamlessly integrate AI capabilities into your existing systems and workflows.",
-    icon: "🔄",
-    features: [
-      "System integration planning",
-      "API development and integration",
-      "Legacy system modernization",
-      "Cloud integration services",
-      "Security and compliance implementation"
-    ],
-    benefits: [
-      "Seamless integration with existing systems",
-      "Minimal operational disruption",
-      "Enhanced system capabilities",
-      "Improved data flow and accessibility"
-    ],
-    stats: {
-      value: "99%",
-      label: "System Uptime",
-      icon: "⚡"
-    }
-  }
-];
-
-const industries = [
-  { name: "Finance & Banking", icon: "🏦" },
-  { name: "Healthcare", icon: "🏥" },
-  { name: "Manufacturing", icon: "🏭" },
-  { name: "Retail & E-commerce", icon: "🛍️" },
-  { name: "Logistics & Supply Chain", icon: "🚚" },
-  { name: "Professional Services", icon: "👔" }
-];
-
-// List of specialized service pages
-const specializedServices = [
-  {
-    title: "Customer Service AI",
-    description: "AI-powered solutions for customer support, including chatbots, automation, and voice assistants.",
-    icon: "💬",
-    link: "/services/customer-service-ai"
+      "Automated data analysis",
+      "Predictive analytics",
+      "Custom dashboards",
+      "Real-time reporting"
+    ]
   }
 ];
 ---
 
-<Layout title="Our Services - QuickSummit">
+<Layout title="AI Services - QuickSummit" cacheBuster={cacheBuster}>
   <main class="pt-24">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Hero Section -->
       <div class="text-center">
         <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
-          Our Services
+          AI Solutions for Your Business
         </h1>
         <p class="mt-3 max-w-md mx-auto text-base text-gray-500 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
-          Discover how our AI solutions can transform your business operations
+          Transform your operations with cutting-edge AI services customized for your industry
         </p>
       </div>
-      
-      <!-- Specialized Service Areas -->
-      {specializedServices.length > 0 && (
-        <div class="mt-12">
-          <h2 class="text-2xl font-bold text-gray-900 mb-6">Specialized Service Areas</h2>
-          <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {specializedServices.map((service) => (
-              <a href={service.link} class="bg-white rounded-lg shadow-lg overflow-hidden transition-transform hover:scale-105">
+
+      <!-- Services Grid -->
+      <div class="mt-16">
+        <div class="grid gap-8 md:grid-cols-2">
+          {services.map((service) => (
+            <a href={service.link} class="group">
+              <div class="bg-white rounded-lg shadow-lg overflow-hidden transform transition duration-200 hover:scale-[1.02] hover:shadow-xl">
                 <div class="px-6 py-8">
                   <div class="text-3xl mb-4">{service.icon}</div>
-                  <h3 class="text-xl font-bold text-gray-900">{service.title}</h3>
-                  <p class="mt-4 text-gray-500">{service.description}</p>
-                  <div class="mt-6 flex items-center text-indigo-600">
-                    <span>Learn more</span>
-                    <svg class="ml-2 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                      <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                    </svg>
-                  </div>
+                  <h3 class="text-2xl font-bold text-gray-900 group-hover:text-indigo-600 transition-colors">
+                    {service.title}
+                  </h3>
+                  <p class="mt-4 text-gray-500">
+                    {service.description}
+                  </p>
+                  <ul class="mt-6 space-y-4">
+                    {service.benefits.map((benefit) => (
+                      <li class="flex items-start">
+                        <svg class="h-6 w-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span class="ml-3 text-gray-500">{benefit}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-              </a>
-            ))}
-          </div>
-        </div>
-      )}
-      
-      <div class="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-        <!-- AI Automation & Workflow Optimization -->
-        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-          <div class="px-6 py-8">
-            <h3 class="text-2xl font-bold text-gray-900">AI Automation & Workflow Optimization</h3>
-            <p class="mt-4 text-gray-500">
-              Streamline your business processes with intelligent automation solutions that reduce manual work and increase efficiency.
-            </p>
-            <ul class="mt-6 space-y-4">
-              <li class="flex items-start">
-                <svg class="h-6 w-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                <span class="ml-3 text-gray-500">Process automation</span>
-              </li>
-              <li class="flex items-start">
-                <svg class="h-6 w-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                <span class="ml-3 text-gray-500">Workflow optimization</span>
-              </li>
-              <li class="flex items-start">
-                <svg class="h-6 w-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                <span class="ml-3 text-gray-500">Task scheduling</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- Custom AI Solutions -->
-        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-          <div class="px-6 py-8">
-            <h3 class="text-2xl font-bold text-gray-900">Custom AI Solutions</h3>
-            <p class="mt-4 text-gray-500">
-              Tailored AI solutions designed to address your specific business challenges and requirements.
-            </p>
-            <ul class="mt-6 space-y-4">
-              <li class="flex items-start">
-                <svg class="h-6 w-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                <span class="ml-3 text-gray-500">Custom AI models</span>
-              </li>
-              <li class="flex items-start">
-                <svg class="h-6 w-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                <span class="ml-3 text-gray-500">Specialized algorithms</span>
-              </li>
-              <li class="flex items-start">
-                <svg class="h-6 w-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                <span class="ml-3 text-gray-500">Business-specific AI</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- Data Analytics & Insights -->
-        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-          <div class="px-6 py-8">
-            <h3 class="text-2xl font-bold text-gray-900">Data Analytics & Insights</h3>
-            <p class="mt-4 text-gray-500">
-              Transform your data into actionable insights with our advanced analytics solutions.
-            </p>
-            <ul class="mt-6 space-y-4">
-              <li class="flex items-start">
-                <svg class="h-6 w-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                <span class="ml-3 text-gray-500">Predictive analytics</span>
-              </li>
-              <li class="flex items-start">
-                <svg class="h-6 w-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                <span class="ml-3 text-gray-500">Business intelligence</span>
-              </li>
-              <li class="flex items-start">
-                <svg class="h-6 w-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                <span class="ml-3 text-gray-500">Data visualization</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- AI Integration Services -->
-        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-          <div class="px-6 py-8">
-            <h3 class="text-2xl font-bold text-gray-900">AI Integration Services</h3>
-            <p class="mt-4 text-gray-500">
-              Seamlessly integrate AI capabilities into your existing systems and workflows.
-            </p>
-            <ul class="mt-6 space-y-4">
-              <li class="flex items-start">
-                <svg class="h-6 w-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                <span class="ml-3 text-gray-500">API integration</span>
-              </li>
-              <li class="flex items-start">
-                <svg class="h-6 w-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                <span class="ml-3 text-gray-500">System compatibility</span>
-              </li>
-              <li class="flex items-start">
-                <svg class="h-6 w-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                <span class="ml-3 text-gray-500">Seamless deployment</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- Consulting & Strategy -->
-        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-          <div class="px-6 py-8">
-            <h3 class="text-2xl font-bold text-gray-900">Consulting & Strategy</h3>
-            <p class="mt-4 text-gray-500">
-              Expert guidance on AI implementation and digital transformation strategies.
-            </p>
-            <ul class="mt-6 space-y-4">
-              <li class="flex items-start">
-                <svg class="h-6 w-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                <span class="ml-3 text-gray-500">Strategic planning</span>
-              </li>
-              <li class="flex items-start">
-                <svg class="h-6 w-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                <span class="ml-3 text-gray-500">Implementation roadmap</span>
-              </li>
-              <li class="flex items-start">
-                <svg class="h-6 w-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                <span class="ml-3 text-gray-500">ROI assessment</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- Training & Support -->
-        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-          <div class="px-6 py-8">
-            <h3 class="text-2xl font-bold text-gray-900">Training & Support</h3>
-            <p class="mt-4 text-gray-500">
-              Comprehensive training and ongoing support for your team.
-            </p>
-            <ul class="mt-6 space-y-4">
-              <li class="flex items-start">
-                <svg class="h-6 w-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                <span class="ml-3 text-gray-500">User training</span>
-              </li>
-              <li class="flex items-start">
-                <svg class="h-6 w-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                <span class="ml-3 text-gray-500">Technical support</span>
-              </li>
-              <li class="flex items-start">
-                <svg class="h-6 w-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                <span class="ml-3 text-gray-500">Documentation</span>
-              </li>
-            </ul>
-          </div>
+              </div>
+            </a>
+          ))}
         </div>
       </div>
 
+      <!-- Call to Action -->
       <div class="mt-16 text-center">
-        <a href="/consultation" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
-          Book a Free Consultation
-        </a>
+        <h2 class="text-3xl font-extrabold text-gray-900 mb-4">
+          Ready to Get Started?
+        </h2>
+        <p class="text-xl text-gray-500 mb-8">
+          Schedule a consultation to discuss how our AI solutions can transform your business.
+        </p>
+        <div class="flex justify-center">
+          <a href="/consultation" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
+            Book a Free Consultation
+          </a>
+        </div>
       </div>
     </div>
   </main>
