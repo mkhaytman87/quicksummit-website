@@ -28,6 +28,17 @@ jobs:
       - name: Build Astro Site
         run: npm run build
 
+      # Create WordPress environment file
+      - name: Create WordPress Environment File
+        run: |
+          cat > dist/blog/.env << EOL
+          <?php
+          define('DB_NAME_ENV', '${{ secrets.WP_DB_NAME }}');
+          define('DB_USER_ENV', '${{ secrets.WP_DB_USER }}');
+          define('DB_PASSWORD_ENV', '${{ secrets.WP_DB_PASSWORD }}');
+          define('DB_HOST_ENV', '${{ secrets.WP_DB_HOST }}');
+          EOL
+
       # Debug step to check dist contents
       - name: List dist contents
         run: |
