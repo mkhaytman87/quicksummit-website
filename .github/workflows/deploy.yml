@@ -33,6 +33,7 @@ jobs:
         run: |
           mkdir -p dist/blog/wp-content/themes
           mkdir -p dist/blog/wp-content/plugins
+          mkdir -p dist/blog/wp-content/uploads
 
       # Create WordPress environment file
       - name: Create WordPress Environment File
@@ -94,6 +95,8 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           port: 22
           script: |
+            # Create uploads directory if it doesn't exist
+            mkdir -p /home/admin/web/quicksummit.net/public_html/blog/wp-content/uploads
             # Set directory permissions - make them group writable for web server
             find /home/admin/web/quicksummit.net/public_html/blog -type d -exec chmod 775 {} \;
             # Set file permissions - make them group writable for web server
