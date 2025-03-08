@@ -94,15 +94,15 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           port: 22
           script: |
-            # Set directory permissions
-            find /home/admin/web/quicksummit.net/public_html/blog -type d -exec chmod 755 {} \;
-            # Set file permissions
-            find /home/admin/web/quicksummit.net/public_html/blog -type f -exec chmod 644 {} \;
-            # Make wp-config.php and .env more secure
-            chmod 600 /home/admin/web/quicksummit.net/public_html/blog/wp-config.php
-            chmod 600 /home/admin/web/quicksummit.net/public_html/blog/.env
-            # Ensure web server user owns WordPress files
-            chown -R www-data:www-data /home/admin/web/quicksummit.net/public_html/blog
+            # Set directory permissions - make them group writable for web server
+            find /home/admin/web/quicksummit.net/public_html/blog -type d -exec chmod 775 {} \;
+            # Set file permissions - make them group writable for web server
+            find /home/admin/web/quicksummit.net/public_html/blog -type f -exec chmod 664 {} \;
+            # Make wp-config.php and .env more secure, but still readable by web server
+            chmod 640 /home/admin/web/quicksummit.net/public_html/blog/wp-config.php
+            chmod 640 /home/admin/web/quicksummit.net/public_html/blog/.env
+            # Make sure uploads directory is writable
+            chmod -R 775 /home/admin/web/quicksummit.net/public_html/blog/wp-content/uploads
 
       # Final deployment step - upload new files
       - name: Deploy to Server
