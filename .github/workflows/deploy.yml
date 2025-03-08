@@ -38,7 +38,6 @@ jobs:
       - name: Create WordPress Environment File
         run: |
           cat > dist/blog/.env << EOL
-          <?php
           define('DB_NAME_ENV', '${{ secrets.WP_DB_NAME }}');
           define('DB_USER_ENV', '${{ secrets.WP_DB_USER }}');
           define('DB_PASSWORD_ENV', '${{ secrets.WP_DB_PASSWORD }}');
@@ -85,6 +84,25 @@ jobs:
             cd /home/admin/web/quicksummit.net/public_html
             # Remove everything except the blog directory
             find . -maxdepth 1 ! -name 'blog' ! -name '.' -exec rm -rf {} +
+
+      # Set proper WordPress permissions
+      - name: Set WordPress Permissions
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          port: 22
+          script: |
+            # Set directory permissions
+            find /home/admin/web/quicksummit.net/public_html/blog -type d -exec chmod 755 {} \;
+            # Set file permissions
+            find /home/admin/web/quicksummit.net/public_html/blog -type f -exec chmod 644 {} \;
+            # Make wp-config.php and .env more secure
+            chmod 600 /home/admin/web/quicksummit.net/public_html/blog/wp-config.php
+            chmod 600 /home/admin/web/quicksummit.net/public_html/blog/.env
+            # Ensure web server user owns WordPress files
+            chown -R www-data:www-data /home/admin/web/quicksummit.net/public_html/blog
 
       # Final deployment step - upload new files
       - name: Deploy to Server
