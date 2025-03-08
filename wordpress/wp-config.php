@@ -25,11 +25,14 @@ define('NONCE_SALT',       'u-LI1AzuC<(?|kP>L3raxG7[3RbZHQ-oFS>Z:3bp13012[-WaDxv
 
 $table_prefix = 'wp_';
 
-// Enable error reporting
+// Enable detailed error reporting
 define('WP_DEBUG', true);
 define('WP_DEBUG_LOG', true);
 define('WP_DEBUG_DISPLAY', true);
+define('SCRIPT_DEBUG', true);
 @ini_set('display_errors', 1);
+@ini_set('log_errors', 1);
+@ini_set('error_log', dirname(__FILE__) . '/wp-content/debug.log');
 
 // Custom Content Directory
 define('WP_CONTENT_DIR', dirname(__FILE__) . '/wp-content');
