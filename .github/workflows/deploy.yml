@@ -39,26 +39,12 @@ jobs:
         run: |
           cp -r public/* dist/
 
-      # Debug step to check after copy
-      - name: List dist contents after copy
-        run: |
-          echo "Contents of dist directory after copying public assets:"
-          ls -la dist/
-
-      - name: Prepare Directories
-        run: |
-          mkdir -p dist/blog/wp-content/themes
-          mkdir -p dist/blog/wp-content/plugins
-
-      - name: Copy .htaccess Files
-        run: |
-          cp .htaccess dist/
-          cp wordpress/.htaccess dist/blog/
-
+      # Copy WordPress files
       - name: Copy WordPress Files
         run: |
-          cp -r wordpress/wp-content/themes/quicksummit dist/blog/wp-content/themes/
-          cp -r wordpress/wp-content/plugins/quicksummit-* dist/blog/wp-content/plugins/ || true
+          mkdir -p dist/blog
+          cp -r wordpress/* dist/blog/
+          cp web.config dist/
 
       # First deployment step - ensure directory exists
       - name: Create Remote Directory
@@ -71,8 +57,8 @@ jobs:
           script: |
             mkdir -p /home/admin/web/quicksummit.net/public_html
 
-      # Second deployment step - clean the directory
-      - name: Clean Remote Directory
+      # Second deployment step - clean only non-WordPress directories
+      - name: Clean Non-WordPress Directories
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.FTP_SERVER }}
@@ -80,7 +66,9 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           port: 22
           script: |
-            rm -rf /home/admin/web/quicksummit.net/public_html/*
+            cd /home/admin/web/quicksummit.net/public_html
+            # Remove everything except the blog directory
+            find . -maxdepth 1 ! -name 'blog' ! -name '.' -exec rm -rf {} +
 
       # Final deployment step - upload new files
       - name: Deploy to Server
