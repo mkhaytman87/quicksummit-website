@@ -1,0 +1,140 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Footer from '../components/Footer.astro';
+
+const cacheBuster = new Date().getTime();
+
+const contactMethods = [
+  {
+    title: "Schedule a Call",
+    description: "Book a time for a detailed discussion about your needs",
+    icon: "📞",
+    link: "/consultation",
+    linkText: "Book Consultation"
+  },
+  {
+    title: "Email Us",
+    description: "Send us a message and we'll respond within 24 hours",
+    icon: "✉️",
+    link: "mailto:contact@quicksummit.net",
+    linkText: "contact@quicksummit.net"
+  },
+  {
+    title: "Follow Us",
+    description: "Connect with us on social media",
+    icon: "🔗",
+    socialLinks: [
+      { name: "Twitter", href: "https://twitter.com/quicksummit", icon: "twitter" },
+      { name: "LinkedIn", href: "https://linkedin.com/company/quicksummit", icon: "linkedin" },
+      { name: "GitHub", href: "https://github.com/quicksummit", icon: "github" }
+    ]
+  }
+];
+
+const faqItems = [
+  {
+    question: "What types of businesses do you work with?",
+    answer: "We work with businesses of all sizes across various industries, from startups to enterprises. Our AI solutions are customizable to meet your specific needs and industry requirements."
+  },
+  {
+    question: "How long does implementation typically take?",
+    answer: "Implementation timelines vary based on the complexity of your needs and chosen solutions. Basic integrations can be completed in a few weeks, while custom AI solutions may take 2-3 months for full deployment."
+  },
+  {
+    question: "Do you offer support after implementation?",
+    answer: "Yes, we provide ongoing support and maintenance for all our AI solutions. Our team is available to help with updates, optimizations, and any technical issues that arise."
+  }
+];
+---
+
+<Layout title="Contact Us - QuickSummit" cacheBuster={cacheBuster}>
+  <main class="pt-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Hero Section -->
+      <div class="text-center mb-16">
+        <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
+          Get in Touch
+        </h1>
+        <p class="mt-3 max-w-md mx-auto text-base text-gray-500 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
+          Have questions about our AI solutions? Let's discuss how we can help transform your business.
+        </p>
+      </div>
+
+      <!-- Contact Methods -->
+      <div class="grid gap-8 md:grid-cols-3 mb-16">
+        {contactMethods.map((method) => (
+          <div class="bg-white p-8 rounded-lg shadow-lg text-center">
+            <div class="text-4xl mb-4">{method.icon}</div>
+            <h3 class="text-xl font-bold text-gray-900 mb-2">{method.title}</h3>
+            <p class="text-gray-600 mb-4">{method.description}</p>
+            {method.link && (
+              <a href={method.link} class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
+                {method.linkText}
+              </a>
+            )}
+            {method.socialLinks && (
+              <div class="flex justify-center space-x-4">
+                {method.socialLinks.map((social) => (
+                  <a href={social.href} class="text-gray-400 hover:text-indigo-600 transition-colors duration-200" target="_blank" rel="noopener noreferrer">
+                    <span class="sr-only">{social.name}</span>
+                    <div class="w-8 h-8 flex items-center justify-center border border-gray-300 rounded-full hover:border-indigo-600">
+                      <span class="text-xl">{social.icon === 'twitter' ? '𝕏' : (social.icon === 'linkedin' ? 'in' : social.icon)}</span>
+                    </div>
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+
+      <!-- Contact Form -->
+      <div class="bg-white p-8 rounded-lg shadow-lg mb-16">
+        <h2 class="text-2xl font-bold text-gray-900 mb-6">Send us a Message</h2>
+        <form action="https://formspree.io/f/contact@quicksummit.net" method="POST" class="grid grid-cols-1 gap-6">
+          <div>
+            <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+            <input type="text" name="name" id="name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+          </div>
+          <div>
+            <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+            <input type="email" name="email" id="email" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+          </div>
+          <div>
+            <label for="company" class="block text-sm font-medium text-gray-700">Company</label>
+            <input type="text" name="company" id="company" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+          </div>
+          <div>
+            <label for="message" class="block text-sm font-medium text-gray-700">Message</label>
+            <textarea name="message" id="message" rows="4" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"></textarea>
+          </div>
+          <div>
+            <button type="submit" class="w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              Send Message
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- FAQs -->
+      <div class="mb-16">
+        <h2 class="text-3xl font-bold text-gray-900 text-center mb-8">Frequently Asked Questions</h2>
+        <div class="grid gap-6 md:grid-cols-2">
+          {faqItems.map((faq) => (
+            <div class="bg-white p-6 rounded-lg shadow-md">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">{faq.question}</h3>
+              <p class="text-gray-600">{faq.answer}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  input:focus, textarea:focus {
+    outline: none;
+  }
+</style>
