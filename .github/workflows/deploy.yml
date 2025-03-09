@@ -22,92 +22,24 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
-      - name: Clean Build Directory
-        run: rm -rf dist/
-
       - name: Build Astro Site
         run: npm run build
 
-      # Create initial directory structure
-      - name: Create Directory Structure
+      - name: Prepare Directories
         run: |
           mkdir -p dist/blog/wp-content/themes
           mkdir -p dist/blog/wp-content/plugins
-          mkdir -p dist/blog/wp-content/uploads
 
-      # Create WordPress environment file
-      - name: Create WordPress Environment File
+      - name: Copy .htaccess Files
         run: |
-          cat > dist/blog/.env << EOL
-          define('DB_NAME_ENV', '${{ secrets.WP_DB_NAME }}');
-          define('DB_USER_ENV', '${{ secrets.WP_DB_USER }}');
-          define('DB_PASSWORD_ENV', '${{ secrets.WP_DB_PASSWORD }}');
-          define('DB_HOST_ENV', '${{ secrets.WP_DB_HOST }}');
-          EOL
+          cp .htaccess dist/
+          cp wordpress/.htaccess dist/blog/
 
-      # Debug step to check dist contents
-      - name: List dist contents
-        run: |
-          echo "Contents of dist directory:"
-          ls -la dist/
-
-      # Ensure public assets are copied
-      - name: Copy Public Assets
-        run: |
-          cp -r public/* dist/
-
-      # Copy WordPress files
       - name: Copy WordPress Files
         run: |
-          cp -r wordpress/* dist/blog/
-          cp web.config dist/
+          cp -r wordpress/wp-content/themes/quicksummit dist/blog/wp-content/themes/
+          cp -r wordpress/wp-content/plugins/quicksummit-* dist/blog/wp-content/plugins/ || true
 
-      # First deployment step - ensure directory exists
-      - name: Create Remote Directory
-        uses: appleboy/ssh-action@v0.1.10
-        with:
-          host: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          port: 22
-          script: |
-            mkdir -p /home/admin/web/quicksummit.net/public_html
-
-      # Second deployment step - clean only non-WordPress directories
-      - name: Clean Non-WordPress Directories
-        uses: appleboy/ssh-action@v0.1.10
-        with:
-          host: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          port: 22
-          script: |
-            cd /home/admin/web/quicksummit.net/public_html
-            # Remove everything except the blog directory
-            find . -maxdepth 1 ! -name 'blog' ! -name '.' -exec rm -rf {} +
-
-      # Set proper WordPress permissions
-      - name: Set WordPress Permissions
-        uses: appleboy/ssh-action@v0.1.10
-        with:
-          host: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          port: 22
-          script: |
-            # Create uploads directory if it doesn't exist
-            mkdir -p /home/admin/web/quicksummit.net/public_html/blog/wp-content/uploads
-            # Set directory permissions - make them group writable for web server
-            find /home/admin/web/quicksummit.net/public_html/blog -type d -exec chmod 775 {} \;
-            # Set file permissions - make them group writable for web server
-            find /home/admin/web/quicksummit.net/public_html/blog -type f -exec chmod 664 {} \;
-            # Make wp-config.php and .env more secure, but still readable by web server
-            chmod 640 /home/admin/web/quicksummit.net/public_html/blog/wp-config.php
-            chmod 640 /home/admin/web/quicksummit.net/public_html/blog/.env
-            # Make sure uploads directory is writable
-            chmod -R 775 /home/admin/web/quicksummit.net/public_html/blog/wp-content/uploads
-
-      # Final deployment step - upload new files
       - name: Deploy to Server
         uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:

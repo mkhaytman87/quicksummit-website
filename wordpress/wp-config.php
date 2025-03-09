@@ -1,15 +1,8 @@
 <?php
-// Load environment variables if available
-if (file_exists(dirname(__FILE__) . '/.env')) {
-    // Include directly since it contains PHP define statements
-    include dirname(__FILE__) . '/.env';
-}
-
-// Database Configuration
-define('DB_NAME', defined('DB_NAME_ENV') ? DB_NAME_ENV : 'mkhaytman_wp_db');
-define('DB_USER', defined('DB_USER_ENV') ? DB_USER_ENV : 'mkhaytman_mkhaytman');
-define('DB_PASSWORD', defined('DB_PASSWORD_ENV') ? DB_PASSWORD_ENV : 'NV6&X1;F&O{;87cV');
-define('DB_HOST', defined('DB_HOST_ENV') ? DB_HOST_ENV : 'localhost');
+define('DB_NAME', 'mkhaytman_wp_db');
+define('DB_USER', 'mkhaytman_mkhaytman');
+define('DB_PASSWORD', 'NV6&X1;F&O{;87cV');  // Using same password as FTP for now - you should change this
+define('DB_HOST', 'localhost');
 define('DB_CHARSET', 'utf8mb4');
 define('DB_COLLATE', '');
 
@@ -25,14 +18,11 @@ define('NONCE_SALT',       'u-LI1AzuC<(?|kP>L3raxG7[3RbZHQ-oFS>Z:3bp13012[-WaDxv
 
 $table_prefix = 'wp_';
 
-// Enable detailed error reporting
+// Enable error reporting
 define('WP_DEBUG', true);
 define('WP_DEBUG_LOG', true);
 define('WP_DEBUG_DISPLAY', true);
-define('SCRIPT_DEBUG', true);
 @ini_set('display_errors', 1);
-@ini_set('log_errors', 1);
-@ini_set('error_log', dirname(__FILE__) . '/wp-content/debug.log');
 
 // Custom Content Directory
 define('WP_CONTENT_DIR', dirname(__FILE__) . '/wp-content');
@@ -41,19 +31,6 @@ define('WP_CONTENT_URL', 'https://quicksummit.net/blog/wp-content');
 // Specify the blog's URL
 define('WP_HOME', 'https://quicksummit.net/blog');
 define('WP_SITEURL', 'https://quicksummit.net/blog');
-
-// Additional Security Measures
-define('DISALLOW_FILE_EDIT', true);  // Disable file editing from WordPress admin
-define('DISALLOW_FILE_MODS', true);  // Disable plugin/theme installation from WordPress admin
-define('AUTOMATIC_UPDATER_DISABLED', false);  // Keep automatic updates enabled for security
-define('WP_AUTO_UPDATE_CORE', 'minor');  // Enable automatic updates for minor WordPress versions
-
-// Disable XML-RPC by default (uncomment if needed)
-// define('XMLRPC_ENABLED', false);
-
-// Force SSL for admin and login
-define('FORCE_SSL_ADMIN', true);
-define('FORCE_SSL_LOGIN', true);
 
 if ( !defined('ABSPATH') )
     define('ABSPATH', dirname(__FILE__) . '/');

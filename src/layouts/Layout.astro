@@ -4,14 +4,9 @@ import SharedHeader from '../components/SharedHeader.astro';
 interface Props {
   title: string;
   description?: string;
-  cacheBuster?: number;
 }
 
-const { 
-  title, 
-  description = "Empowering Your Business with AI-Powered Automation", 
-  cacheBuster = new Date().getTime() 
-} = Astro.props;
+const { title, description = "Empowering Your Business with AI-Powered Automation" } = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -34,21 +29,7 @@ const {
     </script>
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    
-    <!-- Directly import Tailwind styles -->
-    <style is:global>
-      @tailwind base;
-      @tailwind components;
-      @tailwind utilities;
-    </style>
-    
-    <!-- Update CSS path to be more resilient -->
-    <link rel="stylesheet" href={`/style.css?v=${cacheBuster}`} />
-    
-    <!-- Prevent browser caching -->
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="0" />
+    <link rel="stylesheet" href="/style.css" />
   </head>
   <body class="min-h-screen bg-white">
     <SharedHeader />

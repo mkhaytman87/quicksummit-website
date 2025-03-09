@@ -12,11 +12,11 @@ export default defineConfig({
   ],
   site: 'https://quicksummit.net',
   outDir: './dist',
-  base: '/',
+  base: 'https://quicksummit.net',
   trailingSlash: 'never',
   build: {
-    format: 'directory',
-    inlineStylesheets: 'always'
+    format: 'file',
+    inlineStylesheets: 'never'
   },
   vite: {
     build: {
@@ -25,7 +25,8 @@ export default defineConfig({
         output: {
           assetFileNames: '[name][extname]'
         }
-      }
+      },
+      minify: false
     }
   }
 });

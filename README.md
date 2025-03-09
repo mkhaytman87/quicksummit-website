@@ -1,118 +1,85 @@
-# QuickSummit.net - Business AI Solutions Website
+# QuickSummit Website
 
-A modern, performant website built with Astro and Tailwind CSS showcasing our AI solutions and services for businesses.
+The QuickSummit website, built with Astro and WordPress integration.
 
-## 🚀 Features
-
-- ⚡️ Built with Astro for maximum performance
-- 💨 Styled with Tailwind CSS
-- 🎨 Clean, modern design with gradient accents
-- 📱 Fully responsive across all devices
-- 🔄 Server-side rendering
-- 🔍 SEO optimized
-- 🌐 Integrated WordPress blog
-- 🎯 Service-specific landing pages
-- 📊 Google Analytics integration
-
-## 🛠️ Tech Stack
-
-- [Astro](https://astro.build) - The web framework for content-driven websites
-- [Tailwind CSS](https://tailwindcss.com) - Utility-first CSS framework
-- [WordPress](https://wordpress.org) - Blog and CMS integration
-- Node.js / npm
-
-## 🏗️ Project Structure
+## 🚀 Project Structure
 
 ```
 /
-├── public/              # Static assets
-│   ├── favicon.svg
-│   └── images/
+├── public/
+│   └── Static assets (images, etc)
 ├── src/
-│   ├── components/      # UI components
-│   ├── layouts/         # Page layouts
-│   ├── pages/          # Page components
-│   │   └── services/   # Service landing pages
-│   └── styles/         # Global styles
-├── wordpress/          # WordPress integration
+│   ├── components/
+│   ├── layouts/
+│   └── pages/
+├── wordpress/
 │   ├── wp-content/
-│   │   ├── themes/
-│   │   └── plugins/
-└── package.json
+│   │   ├── themes/quicksummit/
+│   │   └── plugins/quicksummit-shared-header/
+│   └── .htaccess
+└── .github/
+    └── workflows/
+        └── deploy.yml (Automated deployment configuration)
 ```
 
-## 🚀 Getting Started
+## 🧞 Development Commands
 
-### Prerequisites
+| Command           | Action                                       |
+|:-----------------|:---------------------------------------------|
+| `npm install`     | Install dependencies                        |
+| `npm run dev`     | Start local dev server at `localhost:4321`  |
+| `npm run build`   | Build your production site to `./dist/`     |
+| `npm run preview` | Preview your build locally                  |
 
-- Node.js (version 16 or later)
-- npm
-- WordPress (for blog functionality)
+## 🔄 Deployment
 
-### Development
+The site uses GitHub Actions for automated deployment via SFTP:
+1. Make changes locally
+2. Commit and push to GitHub
+3. GitHub Actions automatically:
+   - Builds the Astro site
+   - Prepares WordPress files (themes and plugins)
+   - Creates necessary directory structure
+   - Deploys to the production server via SFTP
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/mkhaytman87/quicksummit-website.git
-   cd quicksummit-website
-   ```
+## 🌐 Site Structure
 
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
+- Main Site: https://quicksummit.net (Astro-based static site)
+- Blog: https://quicksummit.net/blog (WordPress)
 
-3. Start the development server:
-   ```bash
-   npm run dev
-   ```
+## 📝 Recent Updates
 
-4. Open [http://localhost:3000](http://localhost:3000) in your browser
+### Shared Navigation
+- Implemented a WordPress plugin (`quicksummit-shared-header`) that injects the main site's navigation into the blog
+- Added conditional logic in the WordPress theme to prevent duplicate navigation bars
+- Fixed routing between main site and blog using `.htaccess` configurations
 
-### Building for Production
+### Automated Deployment
+- Set up GitHub Actions workflow for building and deploying both Astro and WordPress components
+- Configured SFTP deployment for reliable file transfers
+- Implemented directory creation to ensure proper structure on the server
 
-```bash
-npm run build
-```
+## 🔮 Future Improvements
 
-The built files will be in the `dist/` directory.
+### Navigation Enhancement: Headless WordPress Approach
 
-## 📝 Content Management
+**Current Implementation:**
+- The shared header is duplicated in two places (Astro layout and WordPress plugin)
+- Hard-coded URLs in the WordPress plugin
+- Potential for styling inconsistencies
 
-### Adding New Services
+**Planned Improvement (Headless WordPress):**
+- Use WordPress as a backend-only CMS for navigation data
+- Create a WP REST API endpoint to expose navigation structure
+- Astro dynamically pulls menu data from WordPress
+- Benefits:
+  - Single source of truth for navigation
+  - Leverage WordPress's menu management system
+  - Eliminate code duplication
+  - Content editors can update navigation without developer involvement
 
-1. Create a new service page in `src/pages/services/`
-2. Update the services array in `src/pages/services.astro`
-3. Add the service to the navigation dropdown in `src/components/SharedHeader.astro`
-
-### Blog Posts
-
-Blog content is managed through WordPress in the `/blog` subdirectory. The theme and custom plugins are version controlled in the `wordpress/` directory.
-
-## 🚀 Deployment
-
-The site is automatically deployed via GitHub Actions when changes are pushed to the main branch. The deployment process:
-
-1. Builds the Astro site
-2. Copies WordPress theme and plugins
-3. Deploys to production server via SFTP
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
-
-## 📄 License
-
-This project is proprietary and confidential. All rights reserved.
-
-## 👥 Team
-
-- Mark Khaytman - Lead Developer
-- [Add team members as needed]
-
-## 📞 Support
-
-For support or inquiries, please [contact us](https://quicksummit.net/contact) or open an issue in the repository.
+### Other Planned Enhancements:
+- Implement database backup automation
+- Improve page loading performance
+- Add better error handling in deployment workflow
+- Consider moving static assets to a CDN
