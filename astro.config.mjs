@@ -12,12 +12,10 @@ export default defineConfig({
   ],
   site: 'https://quicksummit.net',
   outDir: './dist',
-  base: 'https://quicksummit.net',
-  trailingSlash: 'never',
   build: {
-    format: 'directory', // Changed from 'file' to 'directory'
-    inlineStylesheets: 'never'
+    format: 'directory'
   },
+  trailingSlash: 'never',
   vite: {
     build: {
       cssCodeSplit: false,
