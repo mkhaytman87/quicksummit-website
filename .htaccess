@@ -5,8 +5,11 @@ RewriteEngine On
 RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /(.*)\.html\ HTTP/
 RewriteRule ^(.*)\.html$ /$1 [R=301,L]
 
-# Special case for service.html to service/
-RewriteRule ^service\.html$ /service/ [R=301,L]
+# Special case for services.html to services/
+RewriteRule ^services\.html$ /services/ [R=301,L]
+
+# Special case to redirect /service/ to /services/
+RewriteRule ^service/?$ /services/ [R=301,L]
 
 # Serve files and directories directly if they exist
 RewriteCond %{REQUEST_FILENAME} !-f
