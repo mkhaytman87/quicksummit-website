@@ -1,6 +1,13 @@
 # Enable rewrite engine
 RewriteEngine On
 
+# Redirect .html URLs to clean URLs
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /(.*)\.html\ HTTP/
+RewriteRule ^(.*)\.html$ /$1 [R=301,L]
+
+# Special case for service.html to service/
+RewriteRule ^service\.html$ /service/ [R=301,L]
+
 # Serve files and directories directly if they exist
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d

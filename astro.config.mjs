@@ -15,7 +15,7 @@ export default defineConfig({
   base: 'https://quicksummit.net',
   trailingSlash: 'never',
   build: {
-    format: 'file',
+    format: 'directory', // Changed from 'file' to 'directory'
     inlineStylesheets: 'never'
   },
   vite: {
