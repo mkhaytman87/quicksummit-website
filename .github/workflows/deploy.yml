@@ -40,6 +40,33 @@ jobs:
           cp -r wordpress/wp-content/themes/quicksummit dist/blog/wp-content/themes/
           cp -r wordpress/wp-content/plugins/quicksummit-* dist/blog/wp-content/plugins/ || true
 
+      # Add a step to SSH into server and remove existing files that should be directories
+      - name: Remove existing files for directory-based URLs
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          port: 22
+          script: |
+            # Remove files that should be directories with our new URL structure
+            rm -f /home/admin/web/quicksummit.net/public_html/contact.html || true
+            rm -f /home/admin/web/quicksummit.net/public_html/contact || true
+            rm -f /home/admin/web/quicksummit.net/public_html/services/custom-trained-ai.html || true
+            rm -f /home/admin/web/quicksummit.net/public_html/services/custom-trained-ai || true
+            rm -f /home/admin/web/quicksummit.net/public_html/services/customer-service-ai.html || true
+            rm -f /home/admin/web/quicksummit.net/public_html/services/customer-service-ai || true
+            rm -f /home/admin/web/quicksummit.net/public_html/consultation.html || true
+            rm -f /home/admin/web/quicksummit.net/public_html/consultation || true
+            rm -f /home/admin/web/quicksummit.net/public_html/services.html || true
+            rm -f /home/admin/web/quicksummit.net/public_html/services || true
+            
+            # Create necessary directories
+            mkdir -p /home/admin/web/quicksummit.net/public_html/contact
+            mkdir -p /home/admin/web/quicksummit.net/public_html/services/custom-trained-ai
+            mkdir -p /home/admin/web/quicksummit.net/public_html/services/customer-service-ai
+            mkdir -p /home/admin/web/quicksummit.net/public_html/consultation
+
       - name: Deploy to Server
         uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
