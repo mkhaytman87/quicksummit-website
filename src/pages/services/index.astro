@@ -47,7 +47,8 @@ const services = [
       value: "95%",
       label: "Client Satisfaction Rate",
       icon: "🎯"
-    }
+    },
+    link: "/services/custom-trained-ai"
   },
   {
     title: "Data Analytics & Insights",
@@ -105,6 +106,34 @@ const industries = [
   { name: "Logistics & Supply Chain", icon: "🚚" },
   { name: "Professional Services", icon: "👔" }
 ];
+
+// Featured service pages with detailed descriptions
+const featuredServicePages = [
+  {
+    title: "Custom Trained AI",
+    description: "Proprietary AI solutions tailored to your business needs with complete data privacy and security.",
+    icon: "🎯",
+    link: "/services/custom-trained-ai",
+    highlights: [
+      "Data privacy & security",
+      "Custom training on your data",
+      "Flexible deployment options",
+      "Enterprise integration"
+    ]
+  },
+  {
+    title: "Customer Service AI",
+    description: "Transform your customer service with AI-powered automation while reducing costs by up to 35%.",
+    icon: "💬",
+    link: "/services/customer-service-ai",
+    highlights: [
+      "AI chat support",
+      "Customer service automation",
+      "Voice AI assistants",
+      "Self-service knowledge bases"
+    ]
+  }
+];
 ---
 
 <Layout title="Our Services - QuickSummit">
@@ -118,7 +147,43 @@ const industries = [
           Discover how our AI solutions can transform your business operations
         </p>
       </div>
-
+      
+      <!-- Enhanced Featured Service Pages - More prominent and visually appealing -->
+      <div class="mt-16">
+        <h2 class="text-3xl font-bold text-gray-900 text-center mb-8">Featured Solutions</h2>
+        <div class="grid gap-8 md:grid-cols-2">
+          {featuredServicePages.map((service) => (
+            <div class="bg-gradient-to-b from-white to-indigo-50 rounded-lg shadow-lg overflow-hidden transform transition duration-300 hover:scale-105 border border-indigo-100">
+              <a href={service.link} class="block h-full">
+                <div class="px-6 py-8">
+                  <div class="text-5xl mb-4 text-center">{service.icon}</div>
+                  <h3 class="text-2xl font-bold text-gray-900 text-center mb-2">{service.title}</h3>
+                  <p class="mt-4 text-gray-600 text-center">{service.description}</p>
+                  <ul class="mt-6 space-y-3">
+                    {service.highlights.map((highlight) => (
+                      <li class="flex items-start">
+                        <svg class="h-5 w-5 text-indigo-600 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span class="ml-3 text-gray-700">{highlight}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <div class="mt-8 text-center">
+                    <span class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
+                      Learn More
+                      <svg class="ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                      </svg>
+                    </span>
+                  </div>
+                </div>
+              </a>
+            </div>
+          ))}
+        </div>
+      </div>
+      
       <div class="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
         <!-- AI Automation & Workflow Optimization -->
         <div class="bg-white rounded-lg shadow-lg overflow-hidden">
@@ -149,7 +214,6 @@ const industries = [
             </ul>
           </div>
         </div>
-
         <!-- Custom AI Solutions -->
         <div class="bg-white rounded-lg shadow-lg overflow-hidden">
           <div class="px-6 py-8">
@@ -177,9 +241,16 @@ const industries = [
                 <span class="ml-3 text-gray-500">Business-specific AI</span>
               </li>
             </ul>
+            <div class="mt-6">
+              <a href="/services/custom-trained-ai" class="text-indigo-600 hover:text-indigo-800 font-medium inline-flex items-center">
+                Learn more
+                <svg class="ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                </svg>
+              </a>
+            </div>
           </div>
         </div>
-
         <!-- Data Analytics & Insights -->
         <div class="bg-white rounded-lg shadow-lg overflow-hidden">
           <div class="px-6 py-8">
@@ -209,100 +280,71 @@ const industries = [
             </ul>
           </div>
         </div>
-
-        <!-- AI Integration Services -->
-        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-          <div class="px-6 py-8">
-            <h3 class="text-2xl font-bold text-gray-900">AI Integration Services</h3>
-            <p class="mt-4 text-gray-500">
-              Seamlessly integrate AI capabilities into your existing systems and workflows.
-            </p>
-            <ul class="mt-6 space-y-4">
-              <li class="flex items-start">
-                <svg class="h-6 w-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                <span class="ml-3 text-gray-500">API integration</span>
-              </li>
-              <li class="flex items-start">
-                <svg class="h-6 w-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                <span class="ml-3 text-gray-500">System compatibility</span>
-              </li>
-              <li class="flex items-start">
-                <svg class="h-6 w-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                <span class="ml-3 text-gray-500">Seamless deployment</span>
-              </li>
-            </ul>
-          </div>
+      </div>
+      
+      <!-- Industries Section -->
+      <div class="mt-16">
+        <h2 class="text-3xl font-bold text-gray-900 text-center mb-8">Industries We Serve</h2>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+          {industries.map((industry) => (
+            <div class="bg-white rounded-lg shadow p-6 text-center">
+              <div class="text-4xl mb-2">{industry.icon}</div>
+              <h3 class="text-lg font-medium text-gray-900">{industry.name}</h3>
+            </div>
+          ))}
         </div>
-
-        <!-- Consulting & Strategy -->
-        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-          <div class="px-6 py-8">
-            <h3 class="text-2xl font-bold text-gray-900">Consulting & Strategy</h3>
-            <p class="mt-4 text-gray-500">
-              Expert guidance on AI implementation and digital transformation strategies.
+      </div>
+      
+      <!-- Customer Service AI Section - Enhanced Call-to-Action -->
+      <div class="mt-16 bg-gradient-to-r from-indigo-100 to-purple-100 rounded-xl p-8 border border-indigo-200 shadow-lg">
+        <div class="md:flex items-center justify-between">
+          <div class="md:w-2/3">
+            <h2 class="text-2xl font-bold text-gray-900">Customer Service AI Solutions</h2>
+            <p class="mt-4 text-gray-700">
+              Transform your customer service with AI-powered automation while reducing costs by up to 35%.
+              Our solutions include AI chatbots, voice assistants, and self-service knowledge bases.
             </p>
-            <ul class="mt-6 space-y-4">
-              <li class="flex items-start">
-                <svg class="h-6 w-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            <div class="mt-6">
+              <a href="/services/customer-service-ai" class="inline-flex items-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 shadow-md">
+                Explore Customer Service AI
+                <svg class="ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
                 </svg>
-                <span class="ml-3 text-gray-500">Strategic planning</span>
-              </li>
-              <li class="flex items-start">
-                <svg class="h-6 w-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                <span class="ml-3 text-gray-500">Implementation roadmap</span>
-              </li>
-              <li class="flex items-start">
-                <svg class="h-6 w-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                <span class="ml-3 text-gray-500">ROI assessment</span>
-              </li>
-            </ul>
+              </a>
+            </div>
           </div>
-        </div>
-
-        <!-- Training & Support -->
-        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-          <div class="px-6 py-8">
-            <h3 class="text-2xl font-bold text-gray-900">Training & Support</h3>
-            <p class="mt-4 text-gray-500">
-              Comprehensive training and ongoing support for your team.
-            </p>
-            <ul class="mt-6 space-y-4">
-              <li class="flex items-start">
-                <svg class="h-6 w-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                <span class="ml-3 text-gray-500">User training</span>
-              </li>
-              <li class="flex items-start">
-                <svg class="h-6 w-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                <span class="ml-3 text-gray-500">Technical support</span>
-              </li>
-              <li class="flex items-start">
-                <svg class="h-6 w-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                <span class="ml-3 text-gray-500">Documentation</span>
-              </li>
-            </ul>
+          <div class="md:w-1/3 mt-6 md:mt-0 text-center">
+            <div class="text-6xl bg-white inline-flex p-6 rounded-full shadow-inner">💬</div>
           </div>
         </div>
       </div>
 
+      <!-- Custom Trained AI Section - Added Parallel to Customer Service AI -->
+      <div class="mt-8 bg-gradient-to-r from-blue-100 to-indigo-100 rounded-xl p-8 border border-blue-200 shadow-lg">
+        <div class="md:flex items-center justify-between">
+          <div class="md:w-1/3 mb-6 md:mb-0 text-center order-2 md:order-1">
+            <div class="text-6xl bg-white inline-flex p-6 rounded-full shadow-inner">🎯</div>
+          </div>
+          <div class="md:w-2/3 order-1 md:order-2">
+            <h2 class="text-2xl font-bold text-gray-900">Custom-Trained AI Solutions</h2>
+            <p class="mt-4 text-gray-700">
+              Get proprietary AI solutions tailored to your business with complete data privacy and security.
+              Deploy on-premises or in your private cloud with full control over your data.
+            </p>
+            <div class="mt-6">
+              <a href="/services/custom-trained-ai" class="inline-flex items-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 shadow-md">
+                Discover Custom-Trained AI
+                <svg class="ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      
       <div class="mt-16 text-center">
-        <a href="/consultation" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
+        <a href="/consultation" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 shadow-md">
           Book a Free Consultation
         </a>
       </div>
