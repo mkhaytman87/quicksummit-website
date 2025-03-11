@@ -1,35 +1,26 @@
 # Enable rewrite engine
 RewriteEngine On
 
-# Serve files and directories directly if they exist
+# WordPress blog handling - Fixed to properly handle blog post URLs
+RewriteCond %{REQUEST_URI} ^/blog
+RewriteRule ^blog(/.*)?$ /blog$1 [QSA,PT,L]
+
+# Remove the wordpress path if it's used (redirect to blog)
+RewriteRule ^wordpress(/.*)?$ /blog$1 [R=301,L]
+
+# Static files and directories handling for main site
+RewriteCond %{REQUEST_URI} !^/blog
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-
-# Otherwise, route everything through index.html
 RewriteRule ^ index.html [L]
 
-# Set proper MIME types
-AddType application/javascript .js
-AddType text/css .css
-
-# Enable CORS
-Header set Access-Control-Allow-Origin "*"
-
-# Set security headers
+# Security headers and other settings
 Header set X-Content-Type-Options "nosniff"
 Header set X-Frame-Options "SAMEORIGIN"
 Header set X-XSS-Protection "1; mode=block"
 
-# Enable compression
-AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css application/javascript application/json
-
-# Set caching
-<FilesMatch "\.(html|htm)$">
-    Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
-    Header set Pragma "no-cache"
-    Header set Expires "Wed, 11 Jan 1984 05:00:00 GMT"
-</FilesMatch>
-
-<FilesMatch "\.(js|css|svg|jpg|jpeg|png|gif|ico)$">
-    Header set Cache-Control "max-age=31536000, public"
+# Compression and caching
+AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css application/javascript
+<FilesMatch "\.(js|css|jpg|jpeg|png|gif|ico)$">
+    Header set Cache-Control "max-age=31536000"
 </FilesMatch>

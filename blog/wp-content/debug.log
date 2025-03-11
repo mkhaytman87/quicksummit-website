@@ -1,0 +1,6 @@
+[10-Mar-2025 20:15:07 UTC] PHP Warning:  Undefined array key "SERVER_NAME" in /home/linuxuser/quicksummit-build/blog/url-debug.php on line 64
+[10-Mar-2025 20:15:07 UTC] PHP Warning:  Undefined array key "HTTP_HOST" in /home/linuxuser/quicksummit-build/blog/url-debug.php on line 65
+[10-Mar-2025 20:29:39 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function get_home_path() in /home/linuxuser/quicksummit-build/blog/fix-routing.php:43
+Stack trace:
+#0 {main}
+  thrown in /home/linuxuser/quicksummit-build/blog/fix-routing.php on line 43

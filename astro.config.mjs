@@ -12,10 +12,12 @@ export default defineConfig({
   ],
   site: 'https://quicksummit.net',
   outDir: './dist',
-  build: {
-    format: 'directory'
-  },
+  base: '/',  // Changed from absolute URL to relative path
   trailingSlash: 'never',
+  build: {
+    format: 'directory',  // Changed from 'file' to 'directory'
+    inlineStylesheets: 'never'
+  },
   vite: {
     build: {
       cssCodeSplit: false,

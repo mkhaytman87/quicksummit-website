@@ -1,0 +1,31 @@
+QuickSummit Redundancy Cleanup Backup
+Date: Tue Mar 11 04:01:35 AM UTC 2025
+=======================================
+Items backed up:
+1. wordpress directory
+2. Diagnostic PHP scripts from blog directory:
+   - 
+   - .
+   - ..
+   - check-routing.php
+   - check-theme.php
+   - db-fix.php
+   - debug-url.php
+   - fix-404.php
+   - fix-blog-404.php
+   - fix-routing.php
+   - fix-url-mismatch.php
+   - flush-rules.php
+   - info.php
+   - quick-fix.php
+   - refresh-permalinks.php
+   - reset-permalinks.php
+   - switch-back.php
+   - switch-theme.php
+   - test-post.php
+   - test-request.php
+   - url-debug.php
+   - verify-install.php
+   - wp-settings-check.php
+3. wordpress_latest.zip
+=======================================
